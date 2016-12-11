@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 #include "BaseSource.h"
 
 namespace ofx {
@@ -13,8 +15,9 @@ class ImageSource : public BaseSource {
 		string & getPath();
 		void loadImage(string & filePath);
 		void clear();
+	
 	private:
-		ofImage * image;
+		std::unique_ptr<ofImage> _image;
 
 };
 

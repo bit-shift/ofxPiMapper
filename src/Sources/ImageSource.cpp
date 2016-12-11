@@ -17,30 +17,26 @@ void ImageSource::loadImage(string & filePath){
 	//cout << "loading image: " << filePath << endl;
 	setNameFromPath(filePath);
 	//cout << "path: " << path << endl;
-	image = new ofImage();
+	_image.reset(new ofImage());
 	#if (OF_VERSION_MAJOR == 0 && OF_VERSION_MINOR >= 9) || OF_VERSION_MAJOR > 0
-		if(!image->load(filePath)){
+		if(!_image->load(filePath)){
 	#else
-		if(!image->loadImage(filePath)){
+		if(!_image->loadImage(filePath)){
 	#endif
 		ofLogWarning("ImageSource") << "Could not load image";
 		//exit(EXIT_FAILURE);
 	}
 	#if (OF_VERSION_MAJOR == 0 && OF_VERSION_MINOR >= 9) || OF_VERSION_MAJOR > 0
-		texture = &image->getTexture();
+		texture = &_image->getTexture();
 	#else
-		texture = &image->getTextureReference();
+		texture = &_image->getTextureReference();
 	#endif
 	loaded = true;
 }
 
 void ImageSource::clear(){
-	texture = 0;
-	image->clear();
-	delete image;
-	image = 0;
-	//path = "";
-	//name = "";
+	_image->clear();
+	texture = nullptr;
 	loaded = false;
 }
 
