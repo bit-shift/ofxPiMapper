@@ -36,7 +36,6 @@ void VideoSource::loadVideo(string & filePath){
 }
 
 void VideoSource::clear(){
-	texture = 0;
 	#ifdef TARGET_RASPBERRY_PI
 		OMXPlayerCache::instance()->unload(path);
 	#else
@@ -44,6 +43,7 @@ void VideoSource::clear(){
 		_videoPlayer->stop();
 		_videoPlayer->close();
 	#endif
+	texture = nullptr;
 	loaded = false;
 }
 
@@ -57,7 +57,7 @@ void VideoSource::togglePause(){
 
 #ifndef TARGET_RASPBERRY_PI
 	void VideoSource::update(ofEventArgs & args){
-		if(_videoPlayer != 0){
+		if(_videoPlayer){
 			if(!_initialVolumeSet){
 				if(_videoPlayer->isInitialized()){
 					_videoPlayer->setVolume(VideoSource::enableAudio ? 1.0f : 0.0f);
