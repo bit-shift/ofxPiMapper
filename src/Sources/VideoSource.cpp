@@ -10,11 +10,8 @@ VideoSource::VideoSource(){
 	loadable = true;
 	loaded = false;
 	type = SourceType::SOURCE_TYPE_VIDEO;
-	#ifdef TARGET_RASPBERRY_PI
-		omxPlayer = 0;
-	#else
-		videoPlayer = 0;
-		_initialVolumeSet = false;
+	#ifndef TARGET_RASPBERRY_PI
+		_initialVolumeSet = false;		
 	#endif
 }
 
@@ -24,15 +21,15 @@ void VideoSource::loadVideo(string & filePath){
 	path = filePath;
 	setNameFromPath(filePath);
 	#ifdef TARGET_RASPBERRY_PI
-		omxPlayer = OMXPlayerCache::instance()->load(filePath);
-		texture = &(omxPlayer->getTextureReference());
+		_omxPlayer.reset(OMXPlayerCache::instance()->load(filePath));
+		texture = &(_omxPlayer->getTextureReference());
 	#else
-		videoPlayer = new ofVideoPlayer();
-		videoPlayer->load(filePath);
-		videoPlayer->setLoopState(OF_LOOP_NORMAL);
-		videoPlayer->play();
-		videoPlayer->setVolume(VideoSource::enableAudio ? 1.0f : 0.0f);
-		texture = &(videoPlayer->getTexture());
+		_videoPlayer.reset(new ofVideoPlayer());
+		_videoPlayer->load(filePath);
+		_videoPlayer->setLoopState(OF_LOOP_NORMAL);
+		_videoPlayer->play();
+		_videoPlayer->setVolume(VideoSource::enableAudio ? 1.0f : 0.0f);
+		texture = &(_videoPlayer->getTexture());
 		ofAddListener(ofEvents().update, this, &VideoSource::update);
 	#endif
 	loaded = true;
@@ -44,32 +41,30 @@ void VideoSource::clear(){
 		OMXPlayerCache::instance()->unload(path);
 	#else
 		ofRemoveListener(ofEvents().update, this, &VideoSource::update);
-		videoPlayer->stop();
-		videoPlayer->close();
-		delete videoPlayer;
-		videoPlayer = 0;
+		_videoPlayer->stop();
+		_videoPlayer->close();
 	#endif
 	loaded = false;
 }
 
 void VideoSource::togglePause(){
     #ifdef TARGET_RASPBERRY_PI
-        omxPlayer->togglePause();
+        _omxPlayer->togglePause();
     #else
-        videoPlayer->setPaused(!videoPlayer->isPaused());
+        _videoPlayer->setPaused(!_videoPlayer->isPaused());
     #endif
 }
 
 #ifndef TARGET_RASPBERRY_PI
 	void VideoSource::update(ofEventArgs & args){
-		if(videoPlayer != 0){
+		if(_videoPlayer != 0){
 			if(!_initialVolumeSet){
-				if(videoPlayer->isInitialized()){
-					videoPlayer->setVolume(VideoSource::enableAudio ? 1.0f : 0.0f);
+				if(_videoPlayer->isInitialized()){
+					_videoPlayer->setVolume(VideoSource::enableAudio ? 1.0f : 0.0f);
 					_initialVolumeSet = true;
 				}
 			}
-			videoPlayer->update();
+			_videoPlayer->update();
 		}
 	}
 #endif

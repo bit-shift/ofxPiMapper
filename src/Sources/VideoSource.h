@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 #include "ofMain.h"
 #include "BaseSource.h"
 
@@ -35,11 +37,11 @@ class VideoSource : public BaseSource {
 	private:
 
 		#ifdef TARGET_RASPBERRY_PI
-			ofxOMXPlayer * omxPlayer;     // Naming different for less confusion
+			std::unique_ptr<ofxOMXPlayer> _omxPlayer;     // Naming different for less confusion
 		#else
 			// Go with ofVideoPlayer or
 			// TODO: High Performance Video player on newer Macs
-			ofVideoPlayer * videoPlayer;
+			std::unique_ptr<ofVideoPlayer> _videoPlayer;
 			bool _initialVolumeSet;
 		#endif
 
