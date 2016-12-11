@@ -3,7 +3,7 @@
 namespace ofx {
 namespace piMapper {
 
-FboSource::FboSource() : fbo(0){
+FboSource::FboSource(){
 	name = PIMAPPER_FBO_SOURCE_DEF_NAME;
 	loadable = false;
 	loaded = false;
@@ -37,7 +37,7 @@ void FboSource::removeAppListeners(){
 }
 
 void FboSource::onAppUpdate(ofEventArgs & args){
-	if(fbo == 0 || !fbo->isAllocated()){
+	if(!_fbo || !_fbo->isAllocated()){
 		ofLogWarning("FboSource") << "FBO not allocated";
 		return;
 	}
@@ -45,7 +45,7 @@ void FboSource::onAppUpdate(ofEventArgs & args){
 }
 
 void FboSource::onAppDraw(ofEventArgs & args){
-	if(fbo == 0 || !fbo->isAllocated()){
+	if(!_fbo || !_fbo->isAllocated()){
 		ofLogWarning("FboSource") << "FBO not allocated";
 		return;
 	}
@@ -54,9 +54,9 @@ void FboSource::onAppDraw(ofEventArgs & args){
 		return;
 	}
 	
-	fbo->begin();
+	_fbo->begin();
 	draw();
-	fbo->end();
+	_fbo->end();
 }
 
 void FboSource::onAppExit(ofEventArgs & args){
@@ -69,40 +69,36 @@ void FboSource::setDisableDraw(bool b){
 
 void FboSource::allocate(int width, int height){
 	clear();
-	fbo = new ofFbo();
-	fbo->allocate(width, height);
+	_fbo.reset(new ofFbo());
+	_fbo->allocate(width, height);
 
 	// Clear FBO
-	fbo->begin();
+	_fbo->begin();
 	ofClear(0);
-	fbo->end();
+	_fbo->end();
 	
 	#if (OF_VERSION_MAJOR == 0 && OF_VERSION_MINOR >= 9) || OF_VERSION_MAJOR > 0
-		texture = &(fbo->getTexture());
+		_texture = _fbo->getTexture();
 	#else
-		texture = &(fbo->getTextureReference());
+		_texture = _fbo->getTextureReference();
 	#endif
 }
 
 void FboSource::clear(){
-	texture = 0;
-	if(fbo != 0){
-		delete fbo;
-		fbo = 0;
-	}
+	_fbo.reset(nullptr);
 }
 
 int FboSource::getWidth(){
-	if(fbo->isAllocated()){
-		return fbo->getWidth();
+	if(_fbo->isAllocated()){
+		return _fbo->getWidth();
 	}else{
 		return 0;
 	}
 }
 
 int FboSource::getHeight(){
-	if(fbo->isAllocated()){
-		return fbo->getHeight();
+	if(_fbo->isAllocated()){
+		return _fbo->getHeight();
 	}else{
 		return 0;
 	}

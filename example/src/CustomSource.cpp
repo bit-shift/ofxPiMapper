@@ -11,8 +11,8 @@ void CustomSource::setup(){
 	int numRects = 20;  // change this to add more or less rects
 	for(int i = 0; i < numRects; i++){
 		rects.push_back(ofRectangle(0,
-									ofRandom(fbo->getHeight()),
-									fbo->getWidth(),
+									ofRandom(_fbo->getHeight()),
+									_fbo->getWidth(),
 									ofRandom(20)));
 		rectSpeeds.push_back((1.0f + ofRandom(5)));
 	}
@@ -23,7 +23,7 @@ void CustomSource::update(){
 	// Move rects
 	for(int i = 0; i < rects.size(); i++){
 		rects[i].y += rectSpeeds[i];
-		if(rects[i].y > fbo->getHeight()){
+		if(rects[i].y > _fbo->getHeight()){
 			rects[i].y = -rects[i].getHeight();
 		}
 	}

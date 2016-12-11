@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 #include "ofMain.h"
 #include "BaseSource.h"
 
@@ -33,13 +35,13 @@ class FboSource : public BaseSource {
 		void setDisableDraw(bool b); // Use in cases with external ofFbo
 
 	protected:
-		ofFbo * fbo;
 		void allocate(int width, int height);
 
 		// Some handy getters
 		int getWidth();
 		int getHeight();
-	
+		
+		std::unique_ptr<ofFbo> _fbo;
 		bool _disableDraw;
 };
 
