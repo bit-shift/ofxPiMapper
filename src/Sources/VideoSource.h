@@ -37,7 +37,8 @@ class VideoSource : public BaseSource {
 	private:
 
 		#ifdef TARGET_RASPBERRY_PI
-			std::unique_ptr<ofxOMXPlayer> _omxPlayer;     // Naming different for less confusion
+			// TODO: Naming different for less confusion
+			std::unique_ptr<ofxOMXPlayer> _omxPlayer;     
 		#else
 			// Go with ofVideoPlayer or
 			// TODO: High Performance Video player on newer Macs
