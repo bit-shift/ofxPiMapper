@@ -1,9 +1,7 @@
 #pragma once
 
-#include "SurfaceManager.h"
 #include "BaseCmd.h"
 #include "GridWarpSurface.h"
-#include "ProjectionEditorWidget.h"
 
 class ofxPiMapper;
 

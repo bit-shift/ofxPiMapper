@@ -6,7 +6,6 @@
 
 #include "BaseCmd.h"
 #include "BaseSurface.h"
-#include "ProjectionEditorWidget.h"
 #include "BaseJoint.h"
 
 namespace ofx {
