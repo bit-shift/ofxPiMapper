@@ -23,8 +23,8 @@ void TextureEditorWidget::update(){
 	}
 
 	// update surface if one of the joints is being dragged
-	ofVec2f textureSize = ofVec2f(surface->getSource()->getTexture()->getWidth(),
-								  surface->getSource()->getTexture()->getHeight());
+	ofVec2f textureSize = ofVec2f(surface->getSource()->getTexture().getWidth(),
+								  surface->getSource()->getTexture().getHeight());
 
 	// Get selected joint index
 	int selectedJointIndex = 0;
@@ -45,8 +45,8 @@ void TextureEditorWidget::update(){
 			if(surface->getType() == SurfaceType::GRID_WARP_SURFACE){
 				GridWarpSurface * s = (GridWarpSurface *)surface;
 				vector <ofVec2f> & texCoords = surface->getTexCoords();
-				ofVec2f textureSize = ofVec2f(surface->getSource()->getTexture()->getWidth(),
-									  surface->getSource()->getTexture()->getHeight());
+				ofVec2f textureSize = ofVec2f(surface->getSource()->getTexture().getWidth(),
+									  surface->getSource()->getTexture().getHeight());
 		
 				int rows = s->getGridRows();
 				int cols = s->getGridCols();
@@ -134,15 +134,15 @@ void TextureEditorWidget::createJoints(){
 	clearJoints();
 	vector <ofVec2f> & texCoords = surface->getTexCoords();
 	
-	if(surface->getSource()->getTexture()->isAllocated()){
+	if(surface->getSource()->getTexture().isAllocated()){
 		_pollCreateJoints = false;
 	}else{
 		_pollCreateJoints = true;
 		return;
 	}
 	
-	ofVec2f textureSize = ofVec2f(surface->getSource()->getTexture()->getWidth(),
-								  surface->getSource()->getTexture()->getHeight());
+	ofVec2f textureSize = ofVec2f(surface->getSource()->getTexture().getWidth(),
+								  surface->getSource()->getTexture().getHeight());
 	
 	// Select joints depending on the surface type
 	vector <ofVec2f> tc;
@@ -279,8 +279,8 @@ void TextureEditorWidget::moveTexCoords(ofVec2f by){
 	}
 
 	vector <ofVec2f> & texCoords = surface->getTexCoords();
-	ofVec2f textureSize = ofVec2f(surface->getSource()->getTexture()->getWidth(),
-								  surface->getSource()->getTexture()->getHeight());
+	ofVec2f textureSize = ofVec2f(surface->getSource()->getTexture().getWidth(),
+								  surface->getSource()->getTexture().getHeight());
 	
 	for(int i = 0; i < joints.size(); i++){
 		joints[i]->position += by;
@@ -335,8 +335,8 @@ void TextureEditorWidget::moveTexCoordTo(int texCoordIndex, ofVec2f position){
 	surface->setTexCoord(texCoordIndex, position);
 	
 	ofVec2f textureSize = ofVec2f(
-		surface->getSource()->getTexture()->getWidth(),
-		surface->getSource()->getTexture()->getHeight());
+		surface->getSource()->getTexture().getWidth(),
+		surface->getSource()->getTexture().getHeight());
 	joints[texCoordIndex]->position = position * textureSize;
 }
 

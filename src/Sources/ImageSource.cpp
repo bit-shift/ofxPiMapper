@@ -8,6 +8,9 @@ ImageSource::ImageSource(){
 	loadable = true;
 	loaded = false;
 	type = SourceType::SOURCE_TYPE_IMAGE;
+
+
+	_texture = _image->getTexture();
 }
 
 ImageSource::~ImageSource(){}
@@ -27,16 +30,16 @@ void ImageSource::loadImage(string & filePath){
 		//exit(EXIT_FAILURE);
 	}
 	#if (OF_VERSION_MAJOR == 0 && OF_VERSION_MINOR >= 9) || OF_VERSION_MAJOR > 0
-		texture = &_image->getTexture();
+		_texture = _image->getTexture();
 	#else
-		texture = &_image->getTextureReference();
+		_texture = _image->getTextureReference();
 	#endif
 	loaded = true;
 }
 
 void ImageSource::clear(){
 	_image->clear();
-	texture = nullptr;
+	_image.reset(nullptr);
 	loaded = false;
 }
 

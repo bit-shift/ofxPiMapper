@@ -3,12 +3,15 @@
 namespace ofx {
 namespace piMapper {
 
-FboSource::FboSource(){
+FboSource::FboSource() : _fbo(){
 	name = PIMAPPER_FBO_SOURCE_DEF_NAME;
 	loadable = false;
 	loaded = false;
 	type = SourceType::SOURCE_TYPE_FBO;
 	_disableDraw = false;
+
+
+	_texture = _fbo->getTexture();
 }
 
 FboSource::~FboSource(){
@@ -68,7 +71,6 @@ void FboSource::setDisableDraw(bool b){
 }
 
 void FboSource::allocate(int width, int height){
-	clear();
 	_fbo.reset(new ofFbo());
 	_fbo->allocate(width, height);
 
@@ -85,7 +87,7 @@ void FboSource::allocate(int width, int height){
 }
 
 void FboSource::clear(){
-	_fbo.reset(nullptr);
+	
 }
 
 int FboSource::getWidth(){

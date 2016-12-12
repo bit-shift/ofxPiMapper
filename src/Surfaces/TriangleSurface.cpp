@@ -43,20 +43,16 @@ void TriangleSurface::setup(ofVec2f p1, ofVec2f p2, ofVec2f p3, ofVec2f t1,
 }
 
 void TriangleSurface::draw(){
-	if(source->getTexture() == 0){
-		return;
-	}
-	
-	if(!source->getTexture()->isAllocated()){
+	if(!source->getTexture().isAllocated()){
 		return;
 	}
 	
 	bool normalizedTexCoords = ofGetUsingNormalizedTexCoords();
 	ofEnableNormalizedTexCoords();
 
-	source->getTexture()->bind();
+	source->getTexture().bind();
 	mesh.draw();
-	source->getTexture()->unbind();
+	source->getTexture().unbind();
 	
 	if(!normalizedTexCoords){
 		ofDisableNormalizedTexCoords();
@@ -174,7 +170,7 @@ ofPolyline TriangleSurface::getHitArea(){
 ofPolyline TriangleSurface::getTextureHitArea(){
 	ofPolyline line;
 	vector <ofVec2f> & texCoords = mesh.getTexCoords();
-	ofVec2f textureSize = ofVec2f(source->getTexture()->getWidth(), source->getTexture()->getHeight());
+	ofVec2f textureSize = ofVec2f(source->getTexture().getWidth(), source->getTexture().getHeight());
 	for(int i = 0; i < texCoords.size(); i++){
 		line.addVertex(ofPoint(texCoords[i] * textureSize));
 	}

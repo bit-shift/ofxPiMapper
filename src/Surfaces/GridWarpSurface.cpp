@@ -14,20 +14,16 @@ void GridWarpSurface::setup(){
 }
 
 void GridWarpSurface::draw(){
-	if(source->getTexture() == 0){
-		return;
-	}
-	
-	if(!source->getTexture()->isAllocated()){
+	if(!source->getTexture().isAllocated()){
 		return;
 	}
 	
 	bool normalizedTexCoords = ofGetUsingNormalizedTexCoords();
 	ofEnableNormalizedTexCoords();
 
-	source->getTexture()->bind();
+	source->getTexture().bind();
 	mesh.draw();
-	source->getTexture()->unbind();
+	source->getTexture().unbind();
 	
 	if(!normalizedTexCoords){
 		ofDisableNormalizedTexCoords();
@@ -128,7 +124,7 @@ ofPolyline GridWarpSurface::getHitArea(){
 ofPolyline GridWarpSurface::getTextureHitArea(){
 	ofPolyline line;
 	vector <ofVec2f> & texCoords = mesh.getTexCoords();
-	ofVec2f textureSize = ofVec2f(source->getTexture()->getWidth(), source->getTexture()->getHeight());
+	ofVec2f textureSize = ofVec2f(source->getTexture().getWidth(), source->getTexture().getHeight());
 	
 	int vertsPerRow = _gridCols + 1;
 	int vertsPerCol = _gridRows + 1;

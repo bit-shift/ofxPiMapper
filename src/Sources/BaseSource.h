@@ -10,10 +10,10 @@ namespace piMapper {
 class BaseSource {
 
 	public:
-		BaseSource();
-		BaseSource(ofTexture * newTexture); // Only one clean way of passing the texture
+		BaseSource(ofTexture & texture);
 		~BaseSource();
-		ofTexture * getTexture();
+		
+		ofTexture & getTexture();
 		string & getName();
 		bool isLoadable(); // Maybe the loading features shoud go to a derrived class
 		bool isLoaded(); // as BaseSourceLoadable
@@ -30,8 +30,11 @@ class BaseSource {
 		void init();
 
 	protected:
+		virtual ofTexture & queryTexture(){} 
+
 		void setNameFromPath(string & fullPath);
-		ofTexture * texture;
+		
+		ofTexture & _texture;
 		string name;
 		string path; // This is set only if loadable is true
 		bool loadable; // If the source can be loaded from disk like image and video

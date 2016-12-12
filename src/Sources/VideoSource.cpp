@@ -13,6 +13,9 @@ VideoSource::VideoSource(){
 	#ifndef TARGET_RASPBERRY_PI
 		_initialVolumeSet = false;		
 	#endif
+
+
+	_texture = _videoPlayer->getTexture();
 }
 
 VideoSource::~VideoSource(){}
@@ -22,14 +25,14 @@ void VideoSource::loadVideo(string & filePath){
 	setNameFromPath(filePath);
 	#ifdef TARGET_RASPBERRY_PI
 		_omxPlayer.reset(OMXPlayerCache::instance()->load(filePath));
-		texture = &(_omxPlayer->getTextureReference());
+		_texture = _omxPlayer->getTextureReference();
 	#else
 		_videoPlayer.reset(new ofVideoPlayer());
 		_videoPlayer->load(filePath);
 		_videoPlayer->setLoopState(OF_LOOP_NORMAL);
 		_videoPlayer->play();
 		_videoPlayer->setVolume(VideoSource::enableAudio ? 1.0f : 0.0f);
-		texture = &(_videoPlayer->getTexture());
+		_texture = _videoPlayer->getTexture();
 		ofAddListener(ofEvents().update, this, &VideoSource::update);
 	#endif
 	loaded = true;
@@ -43,7 +46,6 @@ void VideoSource::clear(){
 		_videoPlayer->stop();
 		_videoPlayer->close();
 	#endif
-	texture = nullptr;
 	loaded = false;
 }
 

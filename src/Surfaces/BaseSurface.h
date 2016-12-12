@@ -58,12 +58,8 @@ class BaseSurface {
 	
 		ofRectangle _boundingBox;
 	
-		ofTexture defaultTexture;
-	
 		BaseSource * source;
 		BaseSource * defaultSource;
-	
-		void createDefaultTexture();
 	
 		bool _moved;
 	

@@ -1,22 +1,18 @@
 #include "BaseSource.h"
 
+#include <DefaultSource.h>
+
 namespace ofx {
 namespace piMapper {
 
-BaseSource::BaseSource(){
-	//cout << "BaseSource" << endl;
+BaseSource::BaseSource(ofTexture & texture) : _texture(texture){
 	init();
-}
-
-BaseSource::BaseSource(ofTexture * newTexture){
-	init();
-	texture = newTexture;
 }
 
 BaseSource::~BaseSource(){}
 
-ofTexture * BaseSource::getTexture(){
-	return texture;
+ofTexture & BaseSource::getTexture(){
+	return _texture;
 }
 
 string & BaseSource::getName(){
@@ -40,7 +36,6 @@ string & BaseSource::getPath(){
 }
 
 void BaseSource::init(){
-	texture = 0;
 	name = "";
 	path = "";
 	loadable = false;

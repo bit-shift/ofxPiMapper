@@ -83,20 +83,16 @@ void HexagonSurface::setup(
 }
 
 void HexagonSurface::draw(){
-	if(source->getTexture() == 0){
-		return;
-	}
-	
-	if(!source->getTexture()->isAllocated()){
+	if(!source->getTexture().isAllocated()){
 		return;
 	}
 	
 	bool normalizedTexCoords = ofGetUsingNormalizedTexCoords();
 	ofEnableNormalizedTexCoords();
 
-	source->getTexture()->bind();
+	source->getTexture().bind();
 	mesh.draw();
-	source->getTexture()->unbind();
+	source->getTexture().unbind();
 	
 	if(!normalizedTexCoords){
 		ofDisableNormalizedTexCoords();
@@ -217,8 +213,8 @@ ofPolyline HexagonSurface::getTextureHitArea(){
 	ofPolyline line;
 	vector <ofVec2f> & texCoords = mesh.getTexCoords();
 	ofVec2f textureSize = ofVec2f(
-		source->getTexture()->getWidth(),
-		source->getTexture()->getHeight());
+		source->getTexture().getWidth(),
+		source->getTexture().getHeight());
 	
 	for(int i = 1; i < texCoords.size(); i++){
 		line.addVertex(ofPoint(texCoords[i] * textureSize));
