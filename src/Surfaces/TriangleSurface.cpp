@@ -17,7 +17,7 @@ TriangleSurface::TriangleSurface(){
 
 	FboSource fboSource;
 	auto fboModel = new CustomizableSourceModel<FboSource>(move(fboSource));
-	source_ = shared_ptr<Source>(fboModel);
+	customizable_source_ = shared_ptr<CustomizableSource>(fboModel);
 	// ----------------------------------
 }
 
@@ -69,6 +69,10 @@ void TriangleSurface::draw(){
 	ofEnableNormalizedTexCoords();
 
 	// ----------------------------------
+	customizable_source_->update();
+	customizable_source_->draw(mesh);	
+
+	// source_->update(); // Won't compile :)
 	source_->draw(mesh);
 	// ----------------------------------
 
