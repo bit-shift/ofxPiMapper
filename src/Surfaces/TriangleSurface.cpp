@@ -5,6 +5,14 @@ namespace piMapper {
 
 TriangleSurface::TriangleSurface(){
 	setup();
+
+	// ----------------------------------
+	using namespace source;
+
+	ImageSource imageSource{"concept.img"};
+	auto t = new SourceModel<ImageSource>(move(imageSource));
+	source_ = shared_ptr<Source>(t);
+	// ----------------------------------
 }
 
 TriangleSurface::~TriangleSurface(){}
@@ -53,6 +61,10 @@ void TriangleSurface::draw(){
 	
 	bool normalizedTexCoords = ofGetUsingNormalizedTexCoords();
 	ofEnableNormalizedTexCoords();
+
+	// ----------------------------------
+	source_->draw(mesh);
+	// ----------------------------------
 
 	source->getTexture()->bind();
 	mesh.draw();
