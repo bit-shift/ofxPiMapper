@@ -10,8 +10,12 @@ TriangleSurface::TriangleSurface(){
 	using namespace source;
 
 	ImageSource imageSource{"concept.img"};
-	auto t = new SourceModel<ImageSource>(move(imageSource));
-	source_ = shared_ptr<Source>(t);
+	auto imageModel = new SourceModel<ImageSource>(move(imageSource));
+	source_ = shared_ptr<Source>(imageModel);
+
+	FboSource fboSource;
+	auto fboModel = new CustomizableSourceModel<FboSource>(move(fboSource));
+	source_ = shared_ptr<Source>(fboModel);
 	// ----------------------------------
 }
 

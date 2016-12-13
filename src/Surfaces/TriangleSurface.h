@@ -38,6 +38,7 @@ class TriangleSurface : public BaseSurface {
 	
 		BaseSurface * clone();
 		shared_ptr<source::Source> source_;
+		shared_ptr<source::CustomizableSource> customizable_source_;
 
 };
 
