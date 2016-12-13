@@ -3,7 +3,9 @@
 #include "ofMain.h"
 #include "BaseSurface.h"
 #include "SurfaceType.h"
+
 #include <Source.h>
+#include <CustomizableSource.h>
 
 namespace ofx {
 namespace piMapper {

@@ -1,6 +1,6 @@
-#include <Source.h>
+#include <SourceImpl.h>
 
-#include <ofTexture.h>
+#include <ofImage.h>
 
 #include <Helper.h>
 

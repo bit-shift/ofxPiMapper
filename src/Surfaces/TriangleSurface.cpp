@@ -1,5 +1,7 @@
 #include "TriangleSurface.h"
 
+#include <SourceImpl.h>
+
 namespace ofx {
 namespace piMapper {
 
