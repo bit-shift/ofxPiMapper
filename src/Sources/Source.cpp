@@ -10,6 +10,8 @@ namespace source {
 
 using namespace std;
 
+// ----------------------------------------------------------------------------
+
 ImageSource::ImageSource(const string& filename) :
     image_(new ofImage())
 {
@@ -17,7 +19,7 @@ ImageSource::ImageSource(const string& filename) :
 
 void ImageSource::draw(const ofMesh& mesh) const
 {
-    ofLogNotice("ImageSource") << "drawing...";
+    ofLogNotice("ImageSource") << "draw()";
 }
 
 const size_t ImageSource::width()
@@ -30,6 +32,30 @@ const size_t ImageSource::height()
     return size_t{0};
 }
 
+// ----------------------------------------------------------------------------
+
+FboSource::FboSource()
+{
 }
+
+void FboSource::draw(const ofMesh& mesh) const
+{
+    ofLogNotice("FboSource") << "draw()";
 }
+
+void FboSource::update()
+{
+    ofLogNotice("FboSource") << "update()";
 }
+
+const size_t FboSource::width()
+{
+    return size_t{0};
+}
+
+const size_t FboSource::height()
+{
+    return size_t{0};
+}
+
+}}}

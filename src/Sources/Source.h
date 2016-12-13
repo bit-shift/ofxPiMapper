@@ -30,6 +30,16 @@ public:
     virtual const size_t height() = 0;
 };
 
+class CustomizableSource : public Source {
+public:
+    CustomizableSource() = default;
+    virtual ~CustomizableSource() = default;
+    CustomizableSource(Source const&) = delete;
+    CustomizableSource& operator = (CustomizableSource const& ) = delete;
+    
+	virtual void update() = 0;
+};
+
 template<class T>
 class SourceModel : public Source {
 public:
@@ -53,6 +63,39 @@ public:
     }
 
     ~SourceModel() = default;
+
+private:
+    T model_;
+};
+
+template<class T>
+class CustomizableSourceModel : public CustomizableSource {
+public:
+    typedef T model_type;
+    
+    CustomizableSourceModel(T model) : model_(move(model)) { }
+
+    void draw(const ofMesh& mesh) const 
+    {
+        model_.draw(mesh);
+    }
+
+    void update()
+    {
+        model_.update();
+    }
+    
+    const size_t width()
+    {
+        return model_.width();
+    }
+    
+    const size_t height()
+    {
+        return model_.height();
+    }
+
+    ~CustomizableSourceModel() = default;
 
 private:
     T model_;
@@ -107,7 +150,13 @@ private:
 
 class FboSource {
 public:
+    FboSource();
+    FboSource(FboSource&&) = default;
+
     void draw(const ofMesh& mesh) const;
+    void update();
+    const size_t width();
+    const size_t height();
 
 private:
     unique_ptr<ofTexture> texture_;
