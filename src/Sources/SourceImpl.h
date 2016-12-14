@@ -21,9 +21,9 @@ public:
     const size_t height() const;
 
 private:
-    string path_;
-    ofTexture& texture_;
     unique_ptr<ofImage> image_;
+    ofTexture& texture_;
+    string path_;    
 };
 
 class VideoSource {
@@ -49,6 +49,30 @@ public:
 private:
     string name_;
     unique_ptr<ofTexture> texture_;
+};
+
+struct stream_source {
+    stream_source(const string& url) : url_(url) {}
+    stream_source(stream_source&&) = default;
+
+    void draw(const ofMesh& mesh) const {
+
+    }
+
+    const string& id() const {
+        return url_;
+    }
+
+    const size_t width() const {
+        return 0;
+    }
+
+    const size_t height() const {
+        return 0;
+    }
+
+private:
+    string url_;
 };
 
 }}}
