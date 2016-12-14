@@ -8,9 +8,16 @@ namespace ofx { namespace piMapper {
 
 using namespace source;
 
-TEST_CASE( "image_source can be created", "[image_source]" ) 
+TEST_CASE( "image_source returns path as id", "[image_source]" ) 
 {
-	ImageSource imageSource{"concept.img"};
+	ImageSource source{ "concept.img" };
+	REQUIRE( source.id() == "concept.img" );
+}
+
+TEST_CASE( "fbo_source returns name as id", "[fbo_source]" ) 
+{
+	FboSource source{"fbo #1"};
+	REQUIRE( source.id() == "fbo #1" );
 }
 
 TEST_CASE( "source_forwarder can be created", "[source_forwarder]" ) 
