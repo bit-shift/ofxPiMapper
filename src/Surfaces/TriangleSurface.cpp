@@ -7,19 +7,6 @@ namespace piMapper {
 
 TriangleSurface::TriangleSurface(){
 	setup();
-
-	// ----------------------------------
-	using namespace source;
-	using source_ptr_t = shared_ptr<Source>;
-
-	ImageSource imageSource{"concept.img"};
-	auto imageModel = new SourceModel<ImageSource>(move(imageSource));
-	source_ = shared_ptr<Source>(imageModel);
-
-	FboSource fboSource{"Fbo #1"};
-	auto fboModel = new CustomizableSourceModel<FboSource>(move(fboSource));
-	customizable_source_ = shared_ptr<CustomizableSource>(fboModel);
-	// ----------------------------------
 }
 
 TriangleSurface::~TriangleSurface(){}
@@ -68,22 +55,6 @@ void TriangleSurface::draw(){
 	
 	bool normalizedTexCoords = ofGetUsingNormalizedTexCoords();
 	ofEnableNormalizedTexCoords();
-
-	// ----------------------------------
-	using namespace source;
-	using source_ptr_t = shared_ptr<ImageSource>;
-	using source_fwd_t = SourceForwarder<source_ptr_t>;
-
-	source_ptr_t source_ptr(new ImageSource("image.png"));
-	source_fwd_t fwd(source_ptr);
-	fwd.draw(mesh);
-	// ----------------------------------
-	customizable_source_->update();
-	customizable_source_->draw(mesh);	
-
-	// source_->update(); // Won't compile :)
-	source_->draw(mesh);	
-	// ----------------------------------
 
 	source->getTexture()->bind();
 	mesh.draw();
