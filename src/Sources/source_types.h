@@ -11,6 +11,59 @@ using namespace std;
 
 // ----------------------------------------------------------------------------
 
+struct fbo_source {
+    fbo_source(const string& name) : name_(name) {}
+    fbo_source(fbo_source&&) = default;
+
+    const string& id() const
+    {
+        return name_;
+    }
+
+    void draw(const ofMesh& mesh) const
+    {
+        ofLogNotice("FboSource") << "draw()";
+    }
+
+    void update()
+    {
+        ofLogNotice("FboSource") << "update()";
+    }
+
+    const size_t width() const
+    {
+        return 0;
+    }
+
+    const size_t height() const
+    {
+        return 0;
+    }
+
+private:
+    string name_;
+    unique_ptr<ofTexture> texture_;
+};
+
+// ----------------------------------------------------------------------------
+
+class video_source {
+    video_source(const string& filepath) : filepath_(filepath) {}
+    video_source(video_source&&) = default;
+
+    void draw(const ofMesh& mesh) const
+    {
+
+    }
+
+private:
+    string filepath_;
+    unique_ptr<ofTexture> texture_;
+};
+
+
+// ----------------------------------------------------------------------------
+
 struct image_source {
     image_source(const string& filename) :
     #if (OF_VERSION_MAJOR == 0 && OF_VERSION_MINOR >= 9) || OF_VERSION_MAJOR > 0     
@@ -48,58 +101,6 @@ private:
     unique_ptr<ofImage> image_;
     ofTexture& texture_;
     string path_;    
-};
-
-// ----------------------------------------------------------------------------
-
-class video_source {
-    video_source(const string& filepath) : filepath_(filepath) {}
-    video_source(video_source&&) = default;
-
-    void draw(const ofMesh& mesh) const
-    {
-
-    }
-
-private:
-    string filepath_;
-    unique_ptr<ofTexture> texture_;
-};
-
-// ----------------------------------------------------------------------------
-
-struct fbo_source {
-    fbo_source(const string& name) : name_(name) {}
-    fbo_source(fbo_source&&) = default;
-
-    const string& id() const
-    {
-        return name_;
-    }
-
-    void draw(const ofMesh& mesh) const
-    {
-        ofLogNotice("FboSource") << "draw()";
-    }
-
-    void update()
-    {
-        ofLogNotice("FboSource") << "update()";
-    }
-
-    const size_t width() const
-    {
-        return 0;
-    }
-
-    const size_t height() const
-    {
-        return 0;
-    }
-
-private:
-    string name_;
-    unique_ptr<ofTexture> texture_;
 };
 
 // ----------------------------------------------------------------------------
