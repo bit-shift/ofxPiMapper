@@ -11,8 +11,7 @@ using namespace std;
 
 // ----------------------------------------------------------------------------
 
-class image_source {
-public:
+struct image_source {
     image_source(const string& filename) :
     #if (OF_VERSION_MAJOR == 0 && OF_VERSION_MINOR >= 9) || OF_VERSION_MAJOR > 0     
         image_(new ofImage(filename)),
@@ -51,11 +50,19 @@ private:
     string path_;    
 };
 
-class VideoSource {
-public:
-    void draw(const ofMesh& mesh) const;
+// ----------------------------------------------------------------------------
+
+class video_source {
+    video_source(const string& filepath) : filepath_(filepath) {}
+    video_source(video_source&&) = default;
+
+    void draw(const ofMesh& mesh) const
+    {
+
+    }
 
 private:
+    string filepath_;
     unique_ptr<ofTexture> texture_;
 };
 
