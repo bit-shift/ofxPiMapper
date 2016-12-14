@@ -74,6 +74,11 @@ public:
         item_->draw(mesh);
     }
 
+    const string& id() const 
+    {
+        return item_->id();
+    }
+
 private:
     T item_;
 };

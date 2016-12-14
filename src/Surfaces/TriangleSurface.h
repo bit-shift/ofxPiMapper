@@ -4,9 +4,6 @@
 #include "BaseSurface.h"
 #include "SurfaceType.h"
 
-#include <Source.h>
-#include <CustomizableSource.h>
-
 namespace ofx {
 namespace piMapper {
 
@@ -39,8 +36,6 @@ class TriangleSurface : public BaseSurface {
 		vector <ofVec2f> & getTexCoords();
 	
 		BaseSurface * clone();
-		shared_ptr<source::Source> source_;
-		shared_ptr<source::CustomizableSource> customizable_source_;
 
 };
 
