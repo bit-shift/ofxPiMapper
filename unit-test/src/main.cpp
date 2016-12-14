@@ -20,6 +20,12 @@ TEST_CASE( "fbo_source returns name as id", "[fbo_source]" )
 	REQUIRE( source.id() == "fbo #1" );
 }
 
+TEST_CASE( "stream_source returns url as id", "[stream_source]" ) 
+{
+	stream_source source{"url"};
+	REQUIRE( source.id() == "url" );
+}
+
 TEST_CASE( "source_forwarder can be created", "[source_forwarder]" ) 
 {
 	using source_ptr_t = shared_ptr<ImageSource>;
