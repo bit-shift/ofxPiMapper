@@ -1,0 +1,82 @@
+==21939== Memcheck, a memory error detector
+==21939== Copyright (C) 2002-2015, and GNU GPL'd, by Julian Seward et al.
+==21939== Using Valgrind-3.12.0 and LibVEX; rerun with -h for copyright info
+==21939== Command: bin/example
+==21939== 
+==21939== Syscall param writev(vector[...]) points to uninitialised byte(s)
+==21939==    at 0x9D41B60: __writev_nocancel (in /usr/lib/libc-2.24.so)
+==21939==    by 0xCF3BBAC: ??? (in /usr/lib/libxcb.so.1.1.0)
+==21939==    by 0xCF3BFAC: ??? (in /usr/lib/libxcb.so.1.1.0)
+==21939==    by 0xCF3C02C: xcb_writev (in /usr/lib/libxcb.so.1.1.0)
+==21939==    by 0x79B8F4D: _XSend (in /usr/lib/libX11.so.6.3.0)
+==21939==    by 0x79B9441: _XReply (in /usr/lib/libX11.so.6.3.0)
+==21939==    by 0x79B4FEC: XSync (in /usr/lib/libX11.so.6.3.0)
+==21939==    by 0x69E44A: _glfwReleaseXErrorHandler (in /home/bitshift/Dev/cpp/of-workspace/addons/ofxPiMapper/example/bin/example)
+==21939==    by 0x69E378: createNULLCursor (in /home/bitshift/Dev/cpp/of-workspace/addons/ofxPiMapper/example/bin/example)
+==21939==    by 0x69E5C2: _glfwPlatformInit (in /home/bitshift/Dev/cpp/of-workspace/addons/ofxPiMapper/example/bin/example)
+==21939==    by 0x6980F4: glfwInit (in /home/bitshift/Dev/cpp/of-workspace/addons/ofxPiMapper/example/bin/example)
+==21939==    by 0x544962: ofAppGLFWWindow::setup(ofGLFWWindowSettings const&) (in /home/bitshift/Dev/cpp/of-workspace/addons/ofxPiMapper/example/bin/example)
+==21939==  Address 0xf63a38a is 58 bytes inside a block of size 16,384 alloc'd
+==21939==    at 0x4C2CA40: calloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==21939==    by 0x79A9395: XOpenDisplay (in /usr/lib/libX11.so.6.3.0)
+==21939==    by 0x69E4FC: _glfwPlatformInit (in /home/bitshift/Dev/cpp/of-workspace/addons/ofxPiMapper/example/bin/example)
+==21939==    by 0x6980F4: glfwInit (in /home/bitshift/Dev/cpp/of-workspace/addons/ofxPiMapper/example/bin/example)
+==21939==    by 0x544962: ofAppGLFWWindow::setup(ofGLFWWindowSettings const&) (in /home/bitshift/Dev/cpp/of-workspace/addons/ofxPiMapper/example/bin/example)
+==21939==    by 0x545A8D: ofAppGLFWWindow::setup(ofGLWindowSettings const&) (in /home/bitshift/Dev/cpp/of-workspace/addons/ofxPiMapper/example/bin/example)
+==21939==    by 0x66706D: ofMainLoop::createWindow(ofWindowSettings const&) (in /home/bitshift/Dev/cpp/of-workspace/addons/ofxPiMapper/example/bin/example)
+==21939==    by 0x53A20E: ofSetupOpenGL(int, int, ofWindowMode) (in /home/bitshift/Dev/cpp/of-workspace/addons/ofxPiMapper/example/bin/example)
+==21939==    by 0x41AE6A: main (in /home/bitshift/Dev/cpp/of-workspace/addons/ofxPiMapper/example/bin/example)
+==21939== 
+==21939== Conditional jump or move depends on uninitialised value(s)
+==21939==    at 0x4C31CA6: rawmemchr (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==21939==    by 0x9CD7421: _IO_str_init_static_internal (in /usr/lib/libc-2.24.so)
+==21939==    by 0x9CCABE6: vsscanf (in /usr/lib/libc-2.24.so)
+==21939==    by 0x9CC5356: sscanf (in /usr/lib/libc-2.24.so)
+==21939==    by 0xD57D16A: ??? (in /usr/lib/libdrm.so.2.4.0)
+==21939==    by 0xD57D4A2: ??? (in /usr/lib/libdrm.so.2.4.0)
+==21939==    by 0xD580F18: drmGetDevice (in /usr/lib/libdrm.so.2.4.0)
+==21939==    by 0x6C5E246: ??? (in /usr/lib/mesa/libGL.so.1.2.0)
+==21939==    by 0x6C5D604: ??? (in /usr/lib/mesa/libGL.so.1.2.0)
+==21939==    by 0x6C31938: ??? (in /usr/lib/mesa/libGL.so.1.2.0)
+==21939==    by 0x6C2CED0: glXQueryVersion (in /usr/lib/mesa/libGL.so.1.2.0)
+==21939==    by 0x6A3B1B: _glfwInitContextAPI (in /home/bitshift/Dev/cpp/of-workspace/addons/ofxPiMapper/example/bin/example)
+==21939== 
+[ error ] ofApp::onDirectoryWatcherError: Error: File not found: /boot/ofxpimapper/sources/images
+[ error ] DirectoryUtils::list: /boot/ofxpimapper/sources/images not found.
+[ error ] ofApp::onDirectoryWatcherError: Error: File not found: /media/usb0
+[ error ] DirectoryUtils::list: /media/usb0 not found.
+[ error ] ofApp::onDirectoryWatcherError: Error: File not found: /media/usb1
+[ error ] DirectoryUtils::list: /media/usb1 not found.
+[ error ] ofApp::onDirectoryWatcherError: Error: File not found: /media/usb2
+[ error ] DirectoryUtils::list: /media/usb2 not found.
+[ error ] ofApp::onDirectoryWatcherError: Error: File not found: /media/usb3
+[ error ] DirectoryUtils::list: /media/usb3 not found.
+[ error ] ofApp::onDirectoryWatcherError: Error: File not found: /boot/ofxpimapper/sources/images
+[ error ] DirectoryUtils::list: /boot/ofxpimapper/sources/images not found.
+[ error ] ofApp::onDirectoryWatcherError: Error: File not found: /media/usb0
+[ error ] DirectoryUtils::list: /media/usb0 not found.
+[ error ] ofApp::onDirectoryWatcherError: Error: File not found: /media/usb1
+[ error ] DirectoryUtils::list: /media/usb1 not found.
+[ error ] ofApp::onDirectoryWatcherError: Error: File not found: /media/usb2
+[ error ] DirectoryUtils::list: /media/usb2 not found.
+[ error ] ofApp::onDirectoryWatcherError: Error: File not found: /media/usb3
+[ error ] DirectoryUtils::list: /media/usb3 not found.
+==21939== 
+==21939== HEAP SUMMARY:
+==21939==     in use at exit: 4,710,360 bytes in 10,533 blocks
+==21939==   total heap usage: 56,432 allocs, 45,899 frees, 68,636,767 bytes allocated
+==21939== 
+==21939== LEAK SUMMARY:
+==21939==    definitely lost: 233,912 bytes in 10 blocks
+==21939==    indirectly lost: 22,267 bytes in 152 blocks
+==21939==      possibly lost: 3,509,929 bytes in 7,993 blocks
+==21939==    still reachable: 944,252 bytes in 2,378 blocks
+==21939==                       of which reachable via heuristic:
+==21939==                         newarray           : 471,552 bytes in 34 blocks
+==21939==         suppressed: 0 bytes in 0 blocks
+==21939== Rerun with --leak-check=full to see details of leaked memory
+==21939== 
+==21939== For counts of detected and suppressed errors, rerun with: -v
+==21939== Use --track-origins=yes to see where uninitialised values come from
+==21939== ERROR SUMMARY: 11 errors from 2 contexts (suppressed: 0 from 0)
+                                                                                                                                           valgrind --tool=memcheck bin/example > valgrind.log  7.97s user 0.16s system 79% cpu 10.179 total
