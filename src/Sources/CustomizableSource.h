@@ -36,6 +36,11 @@ public:
     
     CustomizableSourceModel(T model) : model_(move(model)) { }
 
+    const string& id() const
+    {
+        return model_.id();
+    }
+
     void draw(const ofMesh& mesh) const 
     {
         model_.draw(mesh);
@@ -46,12 +51,12 @@ public:
         model_.update();
     }
     
-    const size_t width()
+    const size_t width() const
     {
         return model_.width();
     }
     
-    const size_t height()
+    const size_t height() const
     {
         return model_.height();
     }

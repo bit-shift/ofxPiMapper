@@ -25,9 +25,10 @@ public:
     Source(Source const&) = delete;
     Source& operator = (Source const& ) = delete;
     
+    virtual const string& id() const = 0;
     virtual void draw(const ofMesh& ) const = 0;
-    virtual const size_t width() = 0;
-    virtual const size_t height() = 0;
+    virtual const size_t width() const = 0;
+    virtual const size_t height() const = 0;
 };
 
 template<class T>
@@ -36,18 +37,23 @@ public:
     typedef T model_type;
     
     SourceModel(T model) : model_(move(model)) { }
+
+    const string& id() const
+    {
+        return model_.id();
+    }
     
     void draw(const ofMesh& mesh) const 
     {
         model_.draw(mesh);
     }   
     
-    const size_t width()
+    const size_t width() const
     {
         return model_.width();
     }
     
-    const size_t height()
+    const size_t height() const
     {
         return model_.height();
     }
@@ -61,7 +67,7 @@ private:
 template<class T>
 class SourceForwarder {
 public:
-    SourceForwarder(T const& item) : item_(item) { }
+    SourceForwarder(T item) : item_(move(item)) { }
     
     void draw(const ofMesh& mesh) const 
     {

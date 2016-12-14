@@ -15,11 +15,14 @@ public:
     ImageSource(ImageSource&&) = default;
     
     void draw(const ofMesh& mesh) const;
-    const size_t width();
-    const size_t height();
+
+    const string& id() const;
+    const size_t width() const;
+    const size_t height() const;
 
 private:
-    unique_ptr<ofTexture> texture_;
+    string path_;
+    ofTexture& texture_;
     unique_ptr<ofImage> image_;
 };
 
@@ -33,15 +36,18 @@ private:
 
 class FboSource {
 public:
-    FboSource();
+    FboSource(const string& name);
     FboSource(FboSource&&) = default;
 
     void draw(const ofMesh& mesh) const;
     void update();
-    const size_t width();
-    const size_t height();
+
+    const string& id() const;
+    const size_t width() const;
+    const size_t height() const;
 
 private:
+    string name_;
     unique_ptr<ofTexture> texture_;
 };
 
