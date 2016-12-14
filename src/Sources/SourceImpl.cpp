@@ -15,7 +15,8 @@ using namespace std;
 #if (OF_VERSION_MAJOR == 0 && OF_VERSION_MINOR >= 9) || OF_VERSION_MAJOR > 0
 ImageSource::ImageSource(const string& filename) :
     image_(new ofImage(filename)),
-    texture_(image_->getTexture()) 
+    texture_(image_->getTexture()),
+    path_(filename) 
 {
 }
 #else
