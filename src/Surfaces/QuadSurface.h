@@ -1,5 +1,7 @@
 #pragma once
 
+#include "ofxPostGlitch.h"
+
 #include "ofMain.h"
 #include "BaseSurface.h"
 #include "SurfaceType.h"
@@ -43,6 +45,8 @@ class QuadSurface : public BaseSurface {
 		ofRectangle getMeshBoundingBox();
 	
 		BaseSurface * clone();
+
+		ofxPostGlitch glitch_;
 
 	private:
 		void calculateHomography();

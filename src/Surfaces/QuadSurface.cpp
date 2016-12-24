@@ -33,6 +33,17 @@ void QuadSurface::setup(ofVec2f p1, ofVec2f p2, ofVec2f p3, ofVec2f p4,
 						BaseSource * newSource){
 	// Assign texture
 	source = newSource;
+	if(!source)
+	{
+		ofLogError("QuadSurface") << "Source is null.";
+		return;
+	}
+	ofSetVerticalSync(true);
+	ofSetFrameRate(60);
+	// ofSetCircleResolution(3);
+
+	glitch_.setup(source->getTexture());
+	glitch_.setFx(OFXPOSTGLITCH_INVERT, true);
 
 	// Clear mesh
 	mesh.clear();
@@ -52,14 +63,18 @@ void QuadSurface::setup(ofVec2f p1, ofVec2f p2, ofVec2f p3, ofVec2f p4,
 	mesh.addTexCoord(t2);
 	mesh.addTexCoord(t3);
 	mesh.addTexCoord(t4);
+
+	
 }
 
 void QuadSurface::draw(){
 	if(source->getTexture() == 0){
+		ofLogWarning("QuadSurface") << "Texture is null.";
 		return;
 	}
 	
 	if(!source->getTexture()->isAllocated()){
+		ofLogWarning("QuadSurface") << "Texture is not allocated.";
 		return;
 	}
 
@@ -80,10 +95,15 @@ void QuadSurface::draw(){
 		if(true){
 			bool normalizedTexCoords = ofGetUsingNormalizedTexCoords();
 			ofEnableNormalizedTexCoords();
+
+			
 			
 			glMultMatrixf(_matrix);
+
+			glitch_.generateFx();
+
 			source->getTexture()->bind();
-			m.draw();
+			m.draw();		
 			source->getTexture()->unbind();
 			
 			if(!normalizedTexCoords){
@@ -97,9 +117,11 @@ void QuadSurface::draw(){
 		
 		ofPushStyle();
 		ofSetColor(255, 255, 255);
+
+		glitch_.generateFx();
 	
 		source->getTexture()->bind();
-		mesh.draw();
+		m.draw();	
 		source->getTexture()->unbind();
 		
 		ofPopStyle();
