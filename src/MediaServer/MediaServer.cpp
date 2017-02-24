@@ -399,10 +399,6 @@ void MediaServer::addShmSource(ShmSourcePtr shmSource){
 
     ofLogNotice("MediaServer") << "Source new, adding";
     shmSources.push_back(shmSource);
-
-    // It is important to run the setup of the SHM
-    // source from outside as we can see here.
-    shmSource->setup();
 }
 
 // -----------------------------------------------------------------------------

@@ -13,24 +13,22 @@ ShmSource::~ShmSource()
 
 }
 
-void ShmSource::update()
+void ShmSource::onAppUpdate(ofEventArgs & args)
 {
-
-}
-
-void ShmSource::setup()
-{
-
+    ofLogNotice("ShmSource") << "Reading shared memory.";
 }
 
 void ShmSource::addAppListeners()
 {
-
+    ofLogNotice("ShmSource") << "Adding app listeners";
+    ofAddListener(ofEvents().update, this,
+                   &ShmSource::onAppUpdate, OF_EVENT_ORDER_BEFORE_APP);
 }
 
 void ShmSource::removeAppListeners()
 {
-
+    ofRemoveListener(ofEvents().update, this,
+                     &ShmSource::onAppUpdate, OF_EVENT_ORDER_BEFORE_APP);
 }
 
 }}

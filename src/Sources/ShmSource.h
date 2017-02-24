@@ -15,8 +15,7 @@ class ShmSource : public BaseSource {
         ShmSource();
         ~ShmSource();
 
-        void update();
-        void setup();
+        void onAppUpdate(ofEventArgs & args);
 
         void addAppListeners();
         void removeAppListeners();
