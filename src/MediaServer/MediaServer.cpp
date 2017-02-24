@@ -8,6 +8,8 @@
 
 #include "MediaServer.h"
 
+#include <algorithm>
+
 namespace ofx {
 namespace piMapper {
 
@@ -72,6 +74,10 @@ int MediaServer::getNumFboSources(){
 	return fboSources.size();
 }
 
+int MediaServer::getNumShmSources(){
+    return shmSources.size();
+}
+
 vector <string> & MediaServer::getImagePaths(){
     vector<string> & localPaths = imageWatcher.getFilePaths();
     vector<string> & piPaths = piImageWatcher.getFilePaths();
@@ -110,6 +116,14 @@ vector <string> MediaServer::getFboSourceNames(){
 		fboSourceNames.push_back(fboSources[i]->getName());
 	}
 	return fboSourceNames;
+}
+
+vector <string> MediaServer::getShmSourceNames(){
+    vector <string> shmSourceNames;
+    for(int i = 0; i < shmSources.size(); i++){
+        shmSourceNames.push_back(shmSources[i]->getName());
+    }
+    return shmSourceNames;
 }
 
 vector <string> & MediaServer::getVideoPaths(){
@@ -365,8 +379,95 @@ string MediaServer::getDefaultMediaDir(int sourceType){
 	}
 }
 
+// -----------------------------------------------------------------------------
+
+void MediaServer::addShmSource(ShmSourcePtr shmSource){
+
+    ofLogNotice("MediaServer") << "Attempting to add SHM source with name "
+                               << shmSource->getName();
+
+    auto source = findShmSource(shmSource->getName());
+    if (source)
+    {
+        ofLogWarning("MediaServer") << "Attempt to add SHM source with duplicate name";
+        ofExit(EXIT_FAILURE); // Here we definitely need to fail to avoid confusion
+        std::exit(EXIT_FAILURE); // In case the openFrameworks function fails
+    }
+
+    ofLogNotice("MediaServer") << "Source new, adding";
+    shmSources.push_back(shmSource);
+
+    // It is important to run the setup of the SHM
+    // source from outside as we can see here.
+    shmSource->setup();
+}
+
+// -----------------------------------------------------------------------------
+
+ShmSourcePtr MediaServer::loadShmSource(string& name){
+
+    ofLogNotice("MediaServer") << "Attempting to load SHM source with name "
+                               << name;
+
+    auto source = findShmSource(name);
+    if (!source)
+    {
+        ofLogError("MediaServer")
+                << "Attempt to load non existing SHM source: " << name;
+        ofExit(EXIT_FAILURE);
+    }
+    ofNotifyEvent(onFboSourceLoaded, name, this);
+
+    source.get()->addAppListeners();
+    return *source;
+}
+
+// -----------------------------------------------------------------------------
+
+void MediaServer::unloadShmSource(string& name){
+
+    ofLogNotice("MediaServer") << "Attempt to unload FBO source " << name;
+
+    auto source = findShmSource(name);
+    if (!source)
+    {
+        ofLogWarning("MediaServer") << "SHM source not loaded";
+        return;
+    }
+
+    source.get()->removeAppListeners();
+
+    ofNotifyEvent(onFboSourceUnloaded, name, this);
+}
+
+// -----------------------------------------------------------------------------
+
+boost::optional<ShmSourcePtr> MediaServer::findShmSource(string& name)
+{
+//    auto source = std::find(std::begin(shmSources), std::end(shmSources),
+//                            [name](const ShmSourcePtr& shmSource) -> bool
+//    {
+//        return (shmSource->getName() == name);
+//    });
+
+//    if (source == std::end(shmSources))
+//    {
+//        return boost::none;
+//    }
+    for (auto source: shmSources)
+    {
+        if(source->getName() == name)
+        {
+            return boost::optional<ShmSourcePtr>(source);
+        }
+    }
+    return boost::none;
+}
+
+// -----------------------------------------------------------------------------
+
 void MediaServer::addFboSource(ofx::piMapper::FboSource & fboSource){
-	addFboSource(&fboSource);
+    addFboSource(&fboSource);
 }
 
 void MediaServer::addFboSource(FboSource * fboSource){

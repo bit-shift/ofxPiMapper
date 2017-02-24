@@ -15,10 +15,12 @@ void SourcesEditorWidget::createSelectors(){
 	imageSelector = new RadioList();
 	videoSelector = new RadioList();
 	fboSelector = new RadioList();
+    shmSelector = new RadioList();
 
 	int numImages = mediaServer->getNumImages();
 	int numVideos = mediaServer->getNumVideos();
 	int numFbos = mediaServer->getNumFboSources();
+    int numShms = mediaServer->getNumShmSources();
 
 	// Depending on media count, decide what to load and initialize
 	if(numImages){
@@ -37,6 +39,11 @@ void SourcesEditorWidget::createSelectors(){
 		fboSelector->setup("FBOs", fboNames, fboNames);
 		ofAddListener(fboSelector->onRadioSelected, this, &SourcesEditorWidget::handleFboSelected);
 	}
+    if(numFbos){
+        vector <string> shmNames = mediaServer->getShmSourceNames();
+        shmSelector->setup("SHMs", shmNames, shmNames);
+        ofAddListener(shmSelector->onRadioSelected, this, &SourcesEditorWidget::handleShmSelected);
+    }
 
 	// Align menus
 	int menuPosX = 20;
@@ -52,6 +59,9 @@ void SourcesEditorWidget::createSelectors(){
 	if(numFbos){
 		fboSelector->setPosition(menuPosX, 20);
 	}
+    if(numShms){
+        shmSelector->setPosition(menuPosX, 20);
+    }
 }
 
 void SourcesEditorWidget::draw(){
@@ -68,6 +78,9 @@ void SourcesEditorWidget::draw(){
 	if(fboSelector->size()){
 		fboSelector->draw();
 	}
+    if(shmSelector->size()){
+        shmSelector->draw();
+    }
 }
 
 // TODO: Redesign the selectors completely so they do not need enable and disable.
@@ -81,6 +94,9 @@ void SourcesEditorWidget::disable(){
 	if(fboSelector->size()){
 		fboSelector->disable();
 	}
+    if(shmSelector->size()){
+        shmSelector->disable();
+    }
 }
 
 void SourcesEditorWidget::enable(){
@@ -98,6 +114,9 @@ void SourcesEditorWidget::enable(){
 	if(fboSelector->size()){
 		fboSelector->enable();
 	}
+    if(shmSelector->size()){
+        shmSelector->enable();
+    }
 	BaseSource * source = surfaceManager->getSelectedSurface()->getSource();
 
 	// TODO: getPath should be replaced with something like getId() as now we
@@ -147,12 +166,16 @@ void SourcesEditorWidget::selectSourceRadioButton(string & sourcePath){
 		if(fboSelector->size()){
 			fboSelector->unselectAll();
 		}
+        if(shmSelector->size()){
+            shmSelector->unselectAll();
+        }
 		return;
 	}else{
 		// Check image selector first
 		bool imageRadioSelected = false;
 		bool videoRadioSelected = false;
 		bool fboRadioSelected = false;
+        bool shmRadioSelected = false;
 		if(imageSelector->size()){
 			imageRadioSelected = imageSelector->selectItemByValue(sourcePath);
 		}
@@ -162,7 +185,11 @@ void SourcesEditorWidget::selectSourceRadioButton(string & sourcePath){
 		if(fboSelector->size()){
 			fboRadioSelected = fboSelector->selectItemByValue(sourcePath);
 		}
-		if(imageRadioSelected || videoRadioSelected || fboRadioSelected){
+        if(shmSelector->size()){
+            shmRadioSelected = shmSelector->selectItemByValue(sourcePath);
+        }
+        if(imageRadioSelected || videoRadioSelected
+                || fboRadioSelected || shmRadioSelected){
 			return;
 		}
 		// Log warning if we are still here
@@ -269,6 +296,40 @@ void SourcesEditorWidget::setVideoSource(string & videoPath){
 	// Load new video
 	surface->setSource(mediaServer->loadVideo(videoPath));
 }
+
+// -----------------------------------------------------------------------------
+
+void SourcesEditorWidget::setShmSource(string& name){
+    videoSelector->unselectAll();
+    imageSelector->unselectAll();
+
+    // Get selected surface
+    BaseSurface * surface = surfaceManager->getSelectedSurface();
+    if(surface == 0){
+        ofLogWarning("SourcesEditorWidget") << "No surface selected";
+        return;
+    }
+
+    // Unload old media
+    BaseSource * sourcePtr = surface->getSource();
+    if(sourcePtr->isLoadable()){
+        mediaServer->unloadMedia(sourcePtr->getPath());
+    }else{
+        mediaServer->unloadMedia(sourcePtr->getName());
+    }
+
+    // Load new SHM
+    auto source = mediaServer->loadShmSource(name);
+    surface->setSource(source.get());
+}
+
+// -----------------------------------------------------------------------------
+
+void SourcesEditorWidget::handleShmSelected(string & shmName){
+
+}
+
+// -----------------------------------------------------------------------------
 
 void SourcesEditorWidget::handleFboSelected(string & fboName){
 	_cmdManager->exec(new SetSourceCmd(SourceType::SOURCE_TYPE_FBO,
