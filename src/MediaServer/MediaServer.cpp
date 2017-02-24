@@ -28,6 +28,9 @@ MediaServer::MediaServer():
 	usb3ImageWatcher(USB3_IMAGES_DIR, SourceType::SOURCE_TYPE_IMAGE)
 {
 	addWatcherListeners();
+
+    auto sourcePtr = make_shared<ShmSource>(ShmSource{});
+    addShmSource(sourcePtr);
 }
 
 MediaServer::~MediaServer(){

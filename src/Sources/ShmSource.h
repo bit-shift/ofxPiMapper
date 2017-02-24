@@ -12,8 +12,8 @@ namespace piMapper {
 class ShmSource : public BaseSource {
 
 	public:
-        ShmSource() {}
-        ~ShmSource() {}
+        ShmSource();
+        ~ShmSource();
 
         void update();
         void setup();

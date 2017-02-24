@@ -3,6 +3,16 @@
 namespace ofx {
 namespace piMapper {
 
+ShmSource::ShmSource()
+{
+    name = "glmixer";
+}
+
+ShmSource::~ShmSource()
+{
+
+}
+
 void ShmSource::update()
 {
 
