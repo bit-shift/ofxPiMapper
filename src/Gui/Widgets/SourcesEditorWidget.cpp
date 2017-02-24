@@ -58,6 +58,7 @@ void SourcesEditorWidget::createSelectors(){
 	}
 	if(numFbos){
 		fboSelector->setPosition(menuPosX, 20);
+        menuPosX += distX;
 	}
     if(numShms){
         shmSelector->setPosition(menuPosX, 20);
@@ -248,6 +249,7 @@ void SourcesEditorWidget::setImageSource(string & imagePath){
 	// Unselect selected items
 	videoSelector->unselectAll();
 	fboSelector->unselectAll();
+    shmSelector->unselectAll();
 
 	BaseSurface * surface = surfaceManager->getSelectedSurface();
 	if(surface == 0){
@@ -278,6 +280,7 @@ void SourcesEditorWidget::setVideoSource(string & videoPath){
 	// Unselect any selected items
 	fboSelector->unselectAll();
 	imageSelector->unselectAll();
+    shmSelector->unselectAll();
 
 	BaseSurface * surface = surfaceManager->getSelectedSurface();
 	if(surface == 0){
@@ -302,6 +305,7 @@ void SourcesEditorWidget::setVideoSource(string & videoPath){
 void SourcesEditorWidget::setShmSource(string& name){
     videoSelector->unselectAll();
     imageSelector->unselectAll();
+    fboSelector->unselectAll();
 
     // Get selected surface
     BaseSurface * surface = surfaceManager->getSelectedSurface();
@@ -326,7 +330,10 @@ void SourcesEditorWidget::setShmSource(string& name){
 // -----------------------------------------------------------------------------
 
 void SourcesEditorWidget::handleShmSelected(string & shmName){
-
+    _cmdManager->exec(new SetSourceCmd(SourceType::SOURCE_TYPE_SHM,
+                                       shmName,
+                                       surfaceManager->getSelectedSurface(),
+                                       (SourcesEditorWidget *)this));
 }
 
 // -----------------------------------------------------------------------------
@@ -341,6 +348,7 @@ void SourcesEditorWidget::handleFboSelected(string & fboName){
 void SourcesEditorWidget::setFboSource(string & fboName){
 	videoSelector->unselectAll();
 	imageSelector->unselectAll();
+    shmSelector->unselectAll();
 
 	// Get selected surface
 	BaseSurface * surface = surfaceManager->getSelectedSurface();
