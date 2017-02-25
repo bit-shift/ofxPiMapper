@@ -24,7 +24,7 @@ ADDON_URL = http://github.com/kr15h/ofxPiMapper
 common:
 # dependencies with other addons, a list of them separated by spaces
 # or use += in several lines
-ADDON_DEPENDENCIES = ofxIO ofxXmlSettings ofxGui
+ADDON_DEPENDENCIES = ofxIO ofxXmlSettings ofxGui ofxOpenCv ofxiOSBoost
 
 # include search paths, this will be usually parsed from the file system
 # but if the addon or addon libraries need special search paths they can be
@@ -37,7 +37,7 @@ ADDON_DEPENDENCIES = ofxIO ofxXmlSettings ofxGui
 
 # any special flag that should be passed to the linker when using this
 # addon, also used for system libraries with -lname
-# ADDON_LDFLAGS =
+ADDON_LDFLAGS = -lrt
 
 # linux only, any library that should be included in the project using
 # pkg-config

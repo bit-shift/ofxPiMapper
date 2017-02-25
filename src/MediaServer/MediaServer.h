@@ -13,6 +13,8 @@
 
 #pragma once
 
+#include <boost/optional.hpp>
+
 #include "ofMain.h"
 #include "DirectoryWatcher.h"
 
@@ -24,6 +26,7 @@
 #include "ImageSource.h"
 #include "VideoSource.h"
 #include "FboSource.h"
+#include "ShmSource.h"
 #include "SourceType.h"
 
 #define DEFAULT_IMAGES_DIR "sources/images/"
@@ -61,6 +64,8 @@ We need all of them and we search for mp4, jpg and png files there.
 namespace ofx {
 namespace piMapper {
 
+using ShmSourcePtr = std::shared_ptr<ShmSource>;
+
 class MediaServer {
 	public:
 		MediaServer();
@@ -69,11 +74,13 @@ class MediaServer {
 		int getNumVideos();
 		int getNumImages();
 		int getNumFboSources(); // new
+        int getNumShmSources();
 		vector <string> & getVideoPaths();
 		vector <string>  getVideoNames();
 		vector <string> & getImagePaths();
 		vector <string>  getImageNames();
 		vector <string>  getFboSourceNames(); // new
+        vector <string>  getShmSourceNames();
 
 		BaseSource * loadMedia(string & path, int mediaType);
 		BaseSource * loadImage(string & path);
@@ -90,9 +97,13 @@ class MediaServer {
 		// Do things with FBO sources
 		void addFboSource(FboSource & fboSource); // could be called also as register FBO source
 		void addFboSource(FboSource * fboSource);
+        void addShmSource(ShmSourcePtr shmSource);
 	
-		BaseSource * loadFboSource(string & fboSourceName);
+        BaseSource * loadFboSource(string & fboSourceName);
 		void unloadFboSource(string & fboSourceName);
+
+        ShmSourcePtr loadShmSource(string& fboSourceName);
+        void unloadShmSource(string& shmSourceName);
 
 		// Custom events, add/remove
 		ofEvent <string> onImageAdded;
@@ -101,13 +112,17 @@ class MediaServer {
 		ofEvent <string> onVideoRemoved;
 		ofEvent <string> onFboSourceAdded;
 		ofEvent <string> onFboSourceRemoved;
-		// load/unload
+        ofEvent <string> onShmSourceAdded;
+        ofEvent <string> onShmSourceRemoved;
+        // load/unload
 		ofEvent <string> onImageLoaded;
 		ofEvent <string> onImageUnloaded;
 		ofEvent <string> onVideoLoaded;
 		ofEvent <string> onVideoUnloaded;
 		ofEvent <string> onFboSourceLoaded;
 		ofEvent <string> onFboSourceUnloaded;
+        ofEvent <string> onShmSourceLoaded;
+        ofEvent <string> onShmSourceUnloaded;
 
 	private:
 		// Directory Watchers
@@ -156,8 +171,11 @@ class MediaServer {
 		// Remove event listeners to image and video watcher events
 		void removeWatcherListeners();
 
+        boost::optional<ShmSourcePtr> findShmSource(string& name);
+
 		// FBO source storage before they go to loadedSources
 		vector <FboSource *> fboSources; // FBO source storage
+        vector <ShmSourcePtr> shmSources; // SHM source storage
 };
 
 } // namespace piMapper

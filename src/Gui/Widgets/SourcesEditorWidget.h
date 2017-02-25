@@ -35,7 +35,9 @@ class SourcesEditorWidget {
 		void setImageSource(string & imagePath);
 		void setVideoSource(string & videoPath);
 		void setFboSource(string & fboName);
-		void clearSource();
+        void setShmSource(string& shmName);
+
+        void clearSource();
 
 	private:
 		MediaServer * mediaServer;
@@ -43,6 +45,7 @@ class SourcesEditorWidget {
 		RadioList * imageSelector;
 		RadioList * videoSelector;
 		RadioList * fboSelector;
+        RadioList * shmSelector;
 		CmdManager * _cmdManager;
 	
 		// Methods for creating and destroying the source selectors
@@ -56,6 +59,7 @@ class SourcesEditorWidget {
 		void handleImageSelected(string & imagePath);
 		void handleVideoSelected(string & videoPath);
 		void handleFboSelected(string & fboName);
+        void handleShmSelected(string & fboName);
 
 		// Careful clearing of the media server,
 		// clears only if the media server has been initialized locally
@@ -64,14 +68,22 @@ class SourcesEditorWidget {
 		// MediaServer event handlers
 		void handleImageAdded(string & path);
 		void handleImageRemoved(string & path);
-		void handleVideoAdded(string & path);
+
+        void handleVideoAdded(string & path);
 		void handleVideoRemoved(string & path);
-		void handleImageLoaded(string & path);
+
+        void handleImageLoaded(string & path);
 		void handleImageUnloaded(string & path);
-		void handleFboSourceAdded(string & name);
+
+        void handleFboSourceAdded(string & name);
 		void handleFboSourceRemoved(string & name);
 		void handleFboSourceLoaded(string & name);
 		void handleFboSourceUnloaded(string & name);
+
+        void handleShmSourceAdded(string & path);
+        void handleShmSourceRemoved(string & path);
+        void handleShmSourceLoaded(string & name);
+        void handleShmSourceUnloaded(string & name);
 
 };
 

@@ -6,6 +6,7 @@
 #define SOURCE_TYPE_NAME_IMAGE "image"
 #define SOURCE_TYPE_NAME_VIDEO "video"
 #define SOURCE_TYPE_NAME_FBO "fbo"
+#define SOURCE_TYPE_NAME_SHM "shm"
 
 namespace ofx {
 namespace piMapper {
@@ -14,7 +15,11 @@ class SourceType {
 
 	public:
 		enum {
-			SOURCE_TYPE_NONE, SOURCE_TYPE_IMAGE, SOURCE_TYPE_VIDEO, SOURCE_TYPE_FBO
+            SOURCE_TYPE_NONE,
+            SOURCE_TYPE_IMAGE,
+            SOURCE_TYPE_VIDEO,
+            SOURCE_TYPE_FBO,
+            SOURCE_TYPE_SHM
 		};
 
 		static string GetSourceTypeName(int sourceTypeEnum){
@@ -26,10 +31,12 @@ class SourceType {
 				return SOURCE_TYPE_NAME_NONE;
 			}else if(sourceTypeEnum == SOURCE_TYPE_FBO){
 				return SOURCE_TYPE_NAME_FBO;
+            }else if(sourceTypeEnum == SOURCE_TYPE_SHM){
+                return SOURCE_TYPE_NAME_SHM;
 			}else{
-				stringstream ss;
-				ss << "Invalid source type: " << sourceTypeEnum;
-				ofLogFatalError("SourceType") << ss.str();
+				std::string out;
+				out + "Invalid source type: " + std::to_string(sourceTypeEnum);
+				ofLogFatalError("SourceType " + out);
 				exit(EXIT_FAILURE);
 			}
 		}
@@ -43,10 +50,12 @@ class SourceType {
 				return SOURCE_TYPE_NONE;
 			}else if(sourceTypeName == SOURCE_TYPE_NAME_FBO){
 				return SOURCE_TYPE_FBO;
+            }else if(sourceTypeName == SOURCE_TYPE_NAME_SHM){
+                return SOURCE_TYPE_SHM;
 			}else{
-				stringstream ss;
-				ss << "Invalid source type name: " << sourceTypeName;
-				ofLogFatalError("SourceType") << ss.str();
+				std::string out;
+				out + "Invalid source type name: " + sourceTypeName;
+				ofLogFatalError("SourceType " + out);
 				exit(EXIT_FAILURE);
 			}
 		}
