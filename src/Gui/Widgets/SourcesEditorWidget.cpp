@@ -122,7 +122,8 @@ void SourcesEditorWidget::enable(){
 
 	// TODO: getPath should be replaced with something like getId() as now we
 	//       use paths for loadable sources and names for FBOs
-	if(source->getType() == SourceType::SOURCE_TYPE_FBO){
+    if(source->getType() == SourceType::SOURCE_TYPE_FBO
+            || source->getType() == SourceType::SOURCE_TYPE_SHM){
 		selectSourceRadioButton(source->getName());
 	}else{
 		selectSourceRadioButton(source->getPath());

@@ -97,7 +97,7 @@ class MediaServer {
 		// Do things with FBO sources
 		void addFboSource(FboSource & fboSource); // could be called also as register FBO source
 		void addFboSource(FboSource * fboSource);
-        void addShmSource(shared_ptr<ShmSource> shmSource);
+        void addShmSource(ShmSourcePtr shmSource);
 	
         BaseSource * loadFboSource(string & fboSourceName);
 		void unloadFboSource(string & fboSourceName);
@@ -175,7 +175,7 @@ class MediaServer {
 
 		// FBO source storage before they go to loadedSources
 		vector <FboSource *> fboSources; // FBO source storage
-        vector <shared_ptr<ShmSource>> shmSources; // SHM source storage
+        vector <ShmSourcePtr> shmSources; // SHM source storage
 };
 
 } // namespace piMapper

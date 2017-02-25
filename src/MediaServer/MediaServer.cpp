@@ -29,7 +29,7 @@ MediaServer::MediaServer():
 {
 	addWatcherListeners();
 
-    auto sourcePtr = make_shared<ShmSource>(ShmSource{});
+    auto sourcePtr = std::make_shared<ShmSource>();
     addShmSource(sourcePtr);
 }
 
