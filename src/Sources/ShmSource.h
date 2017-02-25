@@ -35,6 +35,7 @@ class ShmSource : public BaseSource {
         shm_size_t  shm_height_;
 
         std::unique_ptr<managed_shared_memory> segment_;
+        std::shared_ptr<ofTexture> texture_;
 
 };
 
