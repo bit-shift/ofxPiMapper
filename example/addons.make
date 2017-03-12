@@ -2,4 +2,4 @@ ofxPiMapper
 ofxIO
 ofxXmlSettings
 ofxGui
-ofxOMXPlayer
+ofxTweenzor

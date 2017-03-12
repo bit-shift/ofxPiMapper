@@ -11,9 +11,9 @@ void ofApp::setup(){
 	// FBO sources should be added before piMapper.setup() so the
 	// piMapper is able to load the source if it is assigned to
 	// a surface in XML settings.
-	crossSource = new CrossSource();
+	colorSource = new ColorSource();
 	customSource = new CustomSource();
-	piMapper.registerFboSource(crossSource);
+	piMapper.registerFboSource(colorSource);
 	piMapper.registerFboSource(customSource);
 	piMapper.setup();
 

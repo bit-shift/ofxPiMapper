@@ -4,7 +4,7 @@
 #include "Settings.h"
 #include "ofxPiMapper.h"
 #include "CustomSource.h"
-#include "CrossSource.h"
+#include "ColorSource.h"
 #include "VideoSource.h"
 
 class ofApp : public ofBaseApp {
@@ -18,5 +18,5 @@ class ofApp : public ofBaseApp {
 		// By using a custom source that is derived from FboSource
 		// you will be able to see the source listed in sources editor
 		CustomSource * customSource;
-		CrossSource * crossSource;
+		ColorSource * colorSource;
 };

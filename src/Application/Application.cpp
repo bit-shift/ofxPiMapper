@@ -144,6 +144,10 @@ void Application::onKeyPressed(ofKeyEventArgs & args){
 		 setNextPreset();
 		 break;
 
+	case 'f':
+		 ofToggleFullscreen();
+		 break;
+
 	 default:
 		 // All the other keypresses are handled by the application state onKeyPressed
 		 _state->onKeyPressed(this, args);
