@@ -240,6 +240,8 @@ void SourcesEditorWidget::removeMediaServerListeners(){
 }
 
 void SourcesEditorWidget::handleImageSelected(string & imagePath){
+	ofLogNotice("SourcesEditorWidget::handleImageSelected") << imagePath;
+
 	_cmdManager->exec(new SetSourceCmd(SourceType::SOURCE_TYPE_IMAGE,
 									   imagePath,
 									   surfaceManager->getSelectedSurface(),
