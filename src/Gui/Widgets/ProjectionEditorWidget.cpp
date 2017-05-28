@@ -50,26 +50,27 @@ void ProjectionEditorWidget::mouseDragged(ofMouseEventArgs & args){
 	ofVec2f mousePosition = ofVec2f(args.x, args.y);
 
 	// Collect all vertices of the projection surfaces
-	vector <ofVec3f *> allVertices;
+	vector <ofDefaultVec2> allVertices;
 	for(int i = 0; i < surfaceManager->size(); i++){
 		BaseSurface * surface = surfaceManager->getSurface(i);
 		if(surface == surfaceManager->getSelectedSurface()){
 			continue; // Don't add vertices of selected surface
 		}
-		for(int j = 0; j < surface->getVertices().size(); j++){
-			allVertices.push_back(&surface->getVertices()[j]);
+		for (const auto& vertex: surface->getVertices()){
+			allVertices.push_back(ofDefaultVec2{vertex.x, vertex.y});
 		}
 	}
 
 	// Snap currently dragged joint to nearest vertex
-	for(int i = 0; i < joints.size(); i++){
-		if(joints[i]->isDragged()){
-			for(int j = 0; j < allVertices.size(); j++){
-				float distance = mousePosition.distance(*allVertices[j]);
+	for (auto* joint: joints){
+		if (joint && joint->isDragged()){
+			for (const auto& vertex: allVertices){
+				float distance = glm::distance(mousePosition, vertex);
 				if(distance < fSnapDistance){
-					joints[i]->position = *allVertices[j];
-					ofVec2f clickDistance = joints[i]->position - ofVec2f(args.x, args.y);
-					joints[i]->setClickDistance(clickDistance);
+					joint->position.x = vertex.x;
+					joint->position.y = vertex.y;
+					ofDefaultVec2 clickDistance = joint->position - ofDefaultVec2(args.x, args.y);
+					joint->setClickDistance(clickDistance);
 					break;
 				}
 			}
