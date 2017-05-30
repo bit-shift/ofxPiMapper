@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Application.h"
+#include <Application/Application.h>
 #include "ofEvents.h"
 #include "ofLog.h"
 #include "ofGraphics.h"

@@ -6,7 +6,7 @@
 
 #include "BaseCmd.h"
 #include "BaseSurface.h"
-#include "Application.h"
+#include <Application/Application.h>
 
 namespace ofx {
 namespace piMapper {

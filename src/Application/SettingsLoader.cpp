@@ -234,7 +234,7 @@ bool SettingsLoader::save(SurfaceManager & surfaceManager, string fileName){
 	
 	} // for
 	
-	xmlSettings->save(fileName);
+	return xmlSettings->save(fileName);
 }
 
 bool SettingsLoader::create(string fileName){

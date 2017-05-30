@@ -60,11 +60,13 @@ int GridWarpSurface::getGridCols(){
 int GridWarpSurface::setGridRows(int r){
 	_gridRows = r;
 	createGridMesh();
+	return _gridRows;
 }
 
 int GridWarpSurface::setGridCols(int c){
 	_gridCols = c;
 	createGridMesh();
+	return _gridCols;
 }
 
 bool GridWarpSurface::hitTest(ofVec2f p){

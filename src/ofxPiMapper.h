@@ -1,9 +1,9 @@
 #pragma once
 
+#include <Application/Application.h>
 #include "ofEvents.h"
 #include "ofLog.h"
 #include "FboSource.h"
-#include "Application.h"
 #include "SurfaceType.h"
 #include "Mode.h"
 

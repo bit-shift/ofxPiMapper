@@ -1,7 +1,7 @@
 #pragma once
 
 #include "BaseCmd.h"
-#include "Application.h"
+#include <Application/Application.h>
 
 namespace ofx {
 namespace piMapper {
