@@ -19,6 +19,10 @@ class FboSource : public BaseSource {
 		virtual void update(){}
 		virtual void draw(){}
 
+		virtual void set_param(const size_t& node_idx,
+							   const std::string& name, const size_t& value) {}
+		virtual void modulate() {}
+
 		// We use this as replacement of draw internally in ofxPiMapper
 		// to populate the FBO texture that then can be drawn again by
 		// calling normal draw();
