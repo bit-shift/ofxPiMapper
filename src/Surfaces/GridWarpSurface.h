@@ -15,6 +15,7 @@ class GridWarpSurface : public BaseSurface {
 		void setup();
 		void draw();
 		void moveBy(ofVec2f v);
+		void stretch(const float factor);
 	
 		int getType();
 		int getGridRows();

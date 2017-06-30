@@ -3,9 +3,50 @@
 namespace ofx {
 namespace piMapper {
 
+namespace {
+
+//------------------------------------------------------------------------------
+
+using VertexIter = std::vector<ofVec3f>::iterator;
+
+constexpr double const_pi() { return std::atan(1) * 4; }
+
+float value_map(const float input, const float begin, const float end)
+{
+	float out_begin = 0.f;
+	auto pi = const_pi();
+
+	return out_begin + ((pi - out_begin) / (end - begin)) * (input - begin);
+}
+
+void stretch_slice(VertexIter first, VertexIter last, const float factor) 
+{
+	auto& left = (*first).x;
+	auto& right = (*last).x;
+
+    for (auto iter = first; iter != last; ++iter) {
+		auto& vertex = *iter;
+
+		ofLogNotice("GridWarpSurface::stretch_slice()", "-------------------");
+
+		auto offset = std::abs(sin(value_map(vertex.x, left, right)) * factor);
+
+		ofLogNotice("GridWarpSurface::stretch_slice()", to_string(offset));
+		ofLogNotice("GridWarpSurface::stretch_slice()", to_string(vertex.x));
+
+		vertex.x += offset * 100;
+		
+		ofLogNotice("GridWarpSurface::stretch_slice()", to_string(vertex.x));
+    }
+}
+
+} // anonymous
+
+//------------------------------------------------------------------------------
+
 GridWarpSurface::GridWarpSurface(){
-	_gridCols = 2;
-	_gridRows = 2;
+	_gridCols = 8;
+	_gridRows = 1;
 	createGridMesh();
 }
 
@@ -13,36 +54,43 @@ void GridWarpSurface::setup(){
 	// Nothing here yet
 }
 
-void GridWarpSurface::draw(){
-	if(source->getTexture() == 0){
-		return;
-	}
-	
-	if(!source->getTexture()->isAllocated()){
+void GridWarpSurface::draw()
+{
+	auto* texture = source->getTexture();
+	if(!texture || !texture->isAllocated()){
 		return;
 	}
 	
 	bool normalizedTexCoords = ofGetUsingNormalizedTexCoords();
 	ofEnableNormalizedTexCoords();
 
-	source->getTexture()->bind();
+	texture->bind();
 	mesh.draw();
-	source->getTexture()->unbind();
+	texture->unbind();
 	
 	if(!normalizedTexCoords){
 		ofDisableNormalizedTexCoords();
 	}
 }
 
-void GridWarpSurface::moveBy(ofVec2f v){
-	vector <ofVec3f> & vertices = getVertices();
-	
-	for(int i = 0; i < vertices.size(); i++){
-		vertices[i] += v;
-	}
+void GridWarpSurface::moveBy(ofVec2f v)
+{
+	for (auto& vertex : getVertices())
+		vertex += v;
 	
 	setMoved(true);
 	ofNotifyEvent(verticesChangedEvent, mesh.getVertices(), this);
+}
+
+void GridWarpSurface::stretch(const float factor)
+{
+	// float margin = 100.0f;
+	// rows from top to bottom
+	auto& vertices = getVertices();
+	auto offset = vertices.size() / 2;
+
+	stretch_slice(vertices.begin(), vertices.begin() + offset, factor);
+	stretch_slice(vertices.begin() + offset, vertices.end(), factor);
 }
 
 int GridWarpSurface::getType(){
