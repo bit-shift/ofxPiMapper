@@ -172,6 +172,14 @@ void ProjectionMappingMode::onKeyPressed(Application * app, ofKeyEventArgs & arg
 		 _bDrawLayerPanel = !_bDrawLayerPanel;
 		 break;
 
+     case 'c':
+		 app->stretchGridConcave();
+		 break;
+
+     case 'v':
+		 app->stretchGridConvex();
+		 break;
+
 	/*
 	 case 'n': // Set next preset
 		 app->getSurfaceManager()->setNextPreset();

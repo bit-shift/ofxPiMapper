@@ -9,7 +9,15 @@ namespace {
 
 using VertexIter = std::vector<ofVec3f>::iterator;
 
-constexpr double const_pi() { return std::atan(1) * 4; }
+enum class Direction {
+	Left,
+	Right
+};
+
+constexpr double const_pi() 
+{ 
+	return std::atan(1) * 4; 
+}
 
 float value_map(const float input, const float begin, const float end)
 {
@@ -19,23 +27,35 @@ float value_map(const float input, const float begin, const float end)
 	return out_begin + ((pi - out_begin) / (end - begin)) * (input - begin);
 }
 
-void stretch_slice(VertexIter first, VertexIter last, const float factor) 
+void stretch_slice(const VertexIter first, const VertexIter last, 
+	const float factor, Direction direction)
 {
-	auto& left = (*first).x;
-	auto& right = (*last).x;
+	ofLogNotice("GridWarpSurface::stretch_slice()", "-------------------");
+	ofLogNotice("GridWarpSurface::stretch_slice()", "-------------------");
 
-    for (auto iter = first; iter != last; ++iter) {
+	const auto left = (*first).x;
+	const auto right = (*last).x;
+
+	ofLogNotice("GridWarpSurface::stretch_slice()", to_string(left));
+	ofLogNotice("GridWarpSurface::stretch_slice()", to_string(right));
+
+    for (auto iter = first; iter != last; ++iter) 
+	{
 		auto& vertex = *iter;
 
 		ofLogNotice("GridWarpSurface::stretch_slice()", "-------------------");
 
 		auto offset = std::abs(sin(value_map(vertex.x, left, right)) * factor);
+		if (direction == Direction::Left)
+			offset *= -1;
+		
 
 		ofLogNotice("GridWarpSurface::stretch_slice()", to_string(offset));
 		ofLogNotice("GridWarpSurface::stretch_slice()", to_string(vertex.x));
 
-		vertex.x += offset * 100;
 		
+		vertex.x = (factor > 0) ? (vertex.x + offset) : (vertex.x - offset);
+
 		ofLogNotice("GridWarpSurface::stretch_slice()", to_string(vertex.x));
     }
 }
@@ -45,7 +65,7 @@ void stretch_slice(VertexIter first, VertexIter last, const float factor)
 //------------------------------------------------------------------------------
 
 GridWarpSurface::GridWarpSurface(){
-	_gridCols = 8;
+	_gridCols = 16;
 	_gridRows = 1;
 	createGridMesh();
 }
@@ -87,10 +107,14 @@ void GridWarpSurface::stretch(const float factor)
 	// float margin = 100.0f;
 	// rows from top to bottom
 	auto& vertices = getVertices();
-	auto offset = vertices.size() / 2;
+	auto offset = vertices.size() / 4;
 
-	stretch_slice(vertices.begin(), vertices.begin() + offset, factor);
-	stretch_slice(vertices.begin() + offset, vertices.end(), factor);
+	stretch_slice(vertices.begin(), vertices.begin() + offset, factor, Direction::Right);
+	stretch_slice(vertices.begin() + offset, vertices.begin() + 2 * offset, factor, Direction::Left);
+	stretch_slice(vertices.begin() + 2 * offset + 1, vertices.begin() + 3 * offset + 1, factor, Direction::Right);
+	stretch_slice(vertices.begin() + 3 * offset + 1, vertices.begin() + 4 * offset + 1, factor, Direction::Left);
+
+	ofNotifyEvent(verticesChangedEvent, mesh.getVertices(), this);
 }
 
 int GridWarpSurface::getType(){

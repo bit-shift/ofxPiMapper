@@ -129,6 +129,8 @@ class Application {
 		void addGridColumn();
 		void removeGridRow();
 		void removeGridColumn();
+		void stretchGridConcave();
+		void stretchGridConvex();
 		void togglePause();
 		void moveTexCoord(int texCoordIndex, ofVec2f by);
 		// TODO: Add moveVertex.

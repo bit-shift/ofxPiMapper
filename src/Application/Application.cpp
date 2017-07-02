@@ -513,6 +513,28 @@ void Application::removeGridColumn(){
 	}
 }
 
+void Application::stretchGridConcave()
+{
+	auto* surface = getSurfaceManager()->getSelectedSurface();
+
+	if (surface && surface->getType() == SurfaceType::GRID_WARP_SURFACE)
+	{
+		auto* gridSurface = static_cast<GridWarpSurface*>(surface);
+		gridSurface->stretch(1.f);
+	}
+}
+
+void Application::stretchGridConvex()
+{
+	auto* surface = getSurfaceManager()->getSelectedSurface();
+
+	if (surface && surface->getType() == SurfaceType::GRID_WARP_SURFACE)
+	{
+		auto* gridSurface = static_cast<GridWarpSurface*>(surface);
+		gridSurface->stretch(-1.f);
+	}
+}
+
 void Application::togglePause(){
 	if(getSurfaceManager()->getSelectedSurface() == 0){
 		return;
