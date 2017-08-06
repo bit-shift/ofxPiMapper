@@ -28,6 +28,16 @@ void TriangleSurface::setup(ofVec2f p1, ofVec2f p2, ofVec2f p3, ofVec2f t1,
 	// Assign texture
 	source = newSource;
 
+#ifdef TARGET_OPENGLES
+	shader.load("shaders/texture/shadersES2/shader");
+#else
+	if(ofIsGLProgrammableRenderer()){
+		shader.load("shaders/texture/shadersGL3/shader");
+	}else{
+		shader.load("shaders/texture/shadersGL2/shader");
+	}
+#endif
+
 	// Clear mesh
 	mesh.clear();
 
@@ -54,8 +64,15 @@ void TriangleSurface::draw(){
 	bool normalizedTexCoords = ofGetUsingNormalizedTexCoords();
 	ofEnableNormalizedTexCoords();
 
+	// Shader heaven? We'll see...
 	source->getTexture()->bind();
+
+	shader.setUniform1f("mouseX", 0);
+
+	shader.begin();
 	mesh.draw();
+	shader.end();
+
 	source->getTexture()->unbind();
 	
 	if(!normalizedTexCoords){

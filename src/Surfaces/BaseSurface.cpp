@@ -69,6 +69,8 @@ void BaseSurface::drawTexture(ofVec2f position){
 	texMesh.addTexCoord(ofVec2f(1.0f, 0.0f));
 	texMesh.addTexCoord(ofVec2f(1.0f, 1.0f));
 	texMesh.addTexCoord(ofVec2f(0.0f, 1.0f));
+	
+	
 	source->getTexture()->bind();
 	texMesh.draw();
 	source->getTexture()->unbind();
