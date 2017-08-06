@@ -283,9 +283,9 @@ vector <ofVec2f> & GridWarpSurface::getTexCoords(){
 void GridWarpSurface::createGridMesh(){
 	mesh.clear();
 	
-	float margin = 100.0f;
+	float margin = 25.0f;
 	float surfaceWidth = (float)ofGetWidth() - margin * 2.0f;
-	float surfaceHeight = (float)ofGetHeight() - margin * 2.0f;
+	float surfaceHeight = (float)ofGetHeight() - margin * 2.0f + 200.f;
 	float vertexDistanceX = surfaceWidth / (float)_gridCols;
 	float vertexDistanceY = surfaceHeight / (float)_gridRows;
 	
