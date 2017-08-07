@@ -53,6 +53,7 @@ void SurfaceStack::draw() {
 		{
 			shader.begin();
 			shader.setUniformTexture("tex0", *texture, 1);
+			shader.setUniform1f		("mouseX", ofGetMouseX());
 
 			surface->draw();
 			shader.end();
