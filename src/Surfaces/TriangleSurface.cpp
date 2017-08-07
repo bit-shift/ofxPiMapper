@@ -65,15 +65,24 @@ void TriangleSurface::draw(){
 	ofEnableNormalizedTexCoords();
 
 	// Shader heaven? We'll see...
-	source->getTexture()->bind();
+	// source->getTexture()->bind();
+	// shader.begin();
 
-	shader.setUniform1f("mouseX", 0);
+	// ofPushMatrix();
+    // // ofTranslate(ofGetWidth()/2, ofGetHeight()/2);
+    
+    // mesh.draw();
 
-	shader.begin();
-	mesh.draw();
-	shader.end();
+	// ofPopMatrix();
 
-	source->getTexture()->unbind();
+	// shader.end();
+	// source->getTexture()->unbind();
+
+
+	shader.begin();  
+    shader.setUniformTexture("tex0", *(source->getTexture()), 1);  
+    mesh.draw();
+    shader.end();
 	
 	if(!normalizedTexCoords){
 		ofDisableNormalizedTexCoords();
