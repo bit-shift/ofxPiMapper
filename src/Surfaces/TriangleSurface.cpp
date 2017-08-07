@@ -40,18 +40,6 @@ void TriangleSurface::setup(ofVec2f p1, ofVec2f p2, ofVec2f p3, ofVec2f t1,
 	mesh.addTexCoord(t1);
 	mesh.addTexCoord(t2);
 	mesh.addTexCoord(t3);
-
-#ifdef TARGET_OPENGLES
-	ofLogError("FboSource::FboSource()") << "OpenGL ES not supported and no shaders provided.";
-	shader.load("shaders/texture/shadersES2/shader");
-#else
-	if(ofIsGLProgrammableRenderer()){
-		shader.load("shaders/texture/shadersGL3/shader");
-	}else{
-		ofLogError("FboSource::FboSource()") << "OpenGL 2.x not supported and no shaders provided.";
-		shader.load("shaders/texture/shadersGL2/shader");
-	}
-#endif
 }
 
 void TriangleSurface::draw(){
@@ -67,13 +55,8 @@ void TriangleSurface::draw(){
 	ofEnableNormalizedTexCoords();
 
 	// source->getTexture()->bind();
-	// mesh.draw();
-	// source->getTexture()->unbind();
-
-	shader.begin();
-	shader.setUniformTexture("tex0", *(source->getTexture()), 1);
 	mesh.draw();
-	shader.end();
+	// source->getTexture()->unbind();
 	
 	if(!normalizedTexCoords){
 		ofDisableNormalizedTexCoords();
