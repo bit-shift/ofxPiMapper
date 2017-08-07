@@ -46,22 +46,18 @@ void SurfaceStack::swap(int a, int b){
 void SurfaceStack::draw() {
 	ofEnableAlphaBlending();
 
-	
-	shadingFbo.begin();
 	for (auto* surface: _surfaces) {
-		if (surface)
+		auto* source = surface ? surface->getSource() : nullptr;
+		auto* texture = source ? source->getTexture() : nullptr;
+		if (texture)
+		{
+			shader.begin();
+			shader.setUniformTexture("tex0", *texture, 1);
+
 			surface->draw();
+			shader.end();
+		}			
 	}
-	shadingFbo.end();
-
-	shader.begin();
-	shader.setUniformTexture("tex0", shadingFbo.getTexture(), 1);
-
-	targetFbo.begin();
-	shadingFbo.draw(0, 0);
-	targetFbo.end();
-
-	shader.end();
 }
 
 void SurfaceStack::clear(){
