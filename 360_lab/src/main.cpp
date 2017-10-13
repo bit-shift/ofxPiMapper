@@ -19,8 +19,8 @@ int main(int argc, char * argv[]){
 
 	ofAppGLFWWindow win;
 	win.setMultiDisplayFullscreen(true);
+	ofSetupOpenGL(&win, 800, 500, OF_WINDOW);
 	
 	// ofSetupOpenGL(800, 450, OF_WINDOW);
-	ofSetupOpenGL(&win, 800, 500, OF_WINDOW);
 	ofRunApp(new ofApp());
 }
