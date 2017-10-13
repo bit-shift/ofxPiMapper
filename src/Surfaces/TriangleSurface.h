@@ -36,6 +36,8 @@ class TriangleSurface : public BaseSurface {
 		vector <ofVec2f> & getTexCoords();
 	
 		BaseSurface * clone();
+	private:
+		ofShader shader;
 };
 
 } // namespace piMapper

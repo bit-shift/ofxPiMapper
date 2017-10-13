@@ -54,9 +54,9 @@ void TriangleSurface::draw(){
 	bool normalizedTexCoords = ofGetUsingNormalizedTexCoords();
 	ofEnableNormalizedTexCoords();
 
-	source->getTexture()->bind();
+	// source->getTexture()->bind();
 	mesh.draw();
-	source->getTexture()->unbind();
+	// source->getTexture()->unbind();
 	
 	if(!normalizedTexCoords){
 		ofDisableNormalizedTexCoords();

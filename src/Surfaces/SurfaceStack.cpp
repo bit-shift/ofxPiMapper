@@ -3,6 +3,24 @@
 namespace ofx {
 namespace piMapper {
 
+SurfaceStack::SurfaceStack() {
+
+#ifdef TARGET_OPENGLES
+	ofLogError("FboSource::FboSource()") << "OpenGL ES not supported and no shaders provided.";
+	shader.load("shaders/texture/shadersES2/shader");
+#else
+	if(ofIsGLProgrammableRenderer()){
+		shader.load("shaders/texture/shadersGL3/shader");
+	}else{
+		ofLogError("FboSource::FboSource()") << "OpenGL 2.x not supported and no shaders provided.";
+		shader.load("shaders/texture/shadersGL2/shader");
+	}
+#endif
+
+	shadingFbo.allocate(ofGetWidth(), ofGetHeight());
+	targetFbo.allocate(ofGetWidth(), ofGetHeight());
+}
+
 void SurfaceStack::push_back(BaseSurface * s){
 	ofAddListener(s->verticesChangedEvent, this, &SurfaceStack::onVerticesChanged);
 	ofAddListener(s->vertexChangedEvent, this, &SurfaceStack::onVertexChanged);
@@ -25,10 +43,21 @@ void SurfaceStack::swap(int a, int b){
 	std::swap(_surfaces[a], _surfaces[b]);
 }
 
-void SurfaceStack::draw(){
+void SurfaceStack::draw() {
 	ofEnableAlphaBlending();
-	for(int i = 0; i < _surfaces.size(); ++i){
-		_surfaces[i]->draw();
+
+	for (auto* surface: _surfaces) {
+		auto* source = surface ? surface->getSource() : nullptr;
+		auto* texture = source ? source->getTexture() : nullptr;
+		if (texture)
+		{
+			shader.begin();
+			shader.setUniformTexture("tex0", *texture, 1);
+			shader.setUniform1f		("mouseX", ofGetMouseX());
+
+			surface->draw();
+			shader.end();
+		}			
 	}
 }
 

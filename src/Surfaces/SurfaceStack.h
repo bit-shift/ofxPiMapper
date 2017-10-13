@@ -8,6 +8,9 @@ namespace piMapper {
 
 class SurfaceStack {
 	public:
+		SurfaceStack();
+		~SurfaceStack() = default;
+
 		void push_back(BaseSurface * s);
 		void pop_back();
 		void erase(int i);
@@ -33,6 +36,11 @@ class SurfaceStack {
 	
 	private:
 		vector<BaseSurface *> _surfaces;
+
+		ofFbo shadingFbo;
+		ofFbo targetFbo;
+
+		ofShader shader;
 };
 
 } // namespace piMapper
