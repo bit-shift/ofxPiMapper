@@ -12,14 +12,14 @@ public:
 	void update();
 	void draw();
 
+private:
+	size_t width_;
+	size_t height_;
+	float offset_;
+
 	ofSpherePrimitive sphere_;
 	ofLight light_;
 	ofEasyCam cam_;
 
-	ofBoxPrimitive box_;
-	ofMaterial boxMaterial_;
-
-private:
-	size_t width_;
-	size_t height_;
+	ofImage image_;
 };

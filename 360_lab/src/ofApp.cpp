@@ -40,6 +40,7 @@ void ofApp::setup()
 	ofSetEscapeQuitsApp(false);
 
 	// ofEnableDepthTest();
+	// ofDisableAlphaBlending();
 }
 
 void ofApp::update(){

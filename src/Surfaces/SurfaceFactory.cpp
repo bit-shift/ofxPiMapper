@@ -51,10 +51,12 @@ TriangleSurface * SurfaceFactory::createTriangleSurface(){
 QuadSurface * SurfaceFactory::createQuadSurface(){
 	vector <ofVec2f> vertices;
 	float margin = 50.0f;
+	const float width = 1280.f;
+	const float height = 1024.f;
 	vertices.push_back(ofVec2f(margin, margin));
-	vertices.push_back(ofVec2f((float)ofGetWidth() - margin, margin));
-	vertices.push_back(ofVec2f((float)ofGetWidth() - margin, (float)ofGetHeight() - margin));
-	vertices.push_back(ofVec2f(margin, (float)ofGetHeight() - margin));
+	vertices.push_back(ofVec2f(width - margin, margin));
+	vertices.push_back(ofVec2f(width - margin, height - margin));
+	vertices.push_back(ofVec2f(margin, height - margin));
 
 	vector <ofVec2f> texCoords;
 	texCoords.push_back(ofVec2f(ofVec2f(0.0f, 0.0f)));
