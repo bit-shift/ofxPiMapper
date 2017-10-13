@@ -1,6 +1,19 @@
 #include "ofApp.h"
 
-void ofApp::setup(){
+ofApp::ofApp()
+	: ofBaseApp()
+{
+
+}
+
+ofApp::~ofApp() 
+{
+	player_.stop();
+	player_.close();
+}
+
+void ofApp::setup()
+{
 	ofBackground(0);
 
 	// Enable or disable audio for video sources globally
@@ -12,40 +25,47 @@ void ofApp::setup(){
 	// FBO sources should be added before piMapper.setup() so the
 	// piMapper is able to load the source if it is assigned to
 	// a surface in XML settings.
-	piMapper.registerFboSource(source_);
-	piMapper.setup();
+	piMapper_.registerFboSource(&source0_);
+	piMapper_.registerFboSource(&source1_);
+	piMapper_.registerFboSource(&source2_);
+	piMapper_.registerFboSource(&source3_);
+	piMapper_.registerFboSource(&source4_);
+	piMapper_.registerFboSource(&source5_);
+	piMapper_.setup();
 
 	// The info layer is hidden by default, press <i> to toggle
 	// piMapper.showInfo();
 	
 	ofSetFullscreen(Settings::instance()->getFullscreen());
 	ofSetEscapeQuitsApp(false);
+
+	// ofEnableDepthTest();
 }
 
 void ofApp::update(){
-	piMapper.update();
+	piMapper_.update();
 }
 
 void ofApp::draw(){
-	piMapper.draw();
+	piMapper_.draw();
 }
 
 void ofApp::keyPressed(int key){
-	piMapper.keyPressed(key);
+	piMapper_.keyPressed(key);
 }
 
 void ofApp::keyReleased(int key){
-	piMapper.keyReleased(key);
+	piMapper_.keyReleased(key);
 }
 
 void ofApp::mousePressed(int x, int y, int button){
-	piMapper.mousePressed(x, y, button);
+	piMapper_.mousePressed(x, y, button);
 }
 
 void ofApp::mouseReleased(int x, int y, int button){
-	piMapper.mouseReleased(x, y, button);
+	piMapper_.mouseReleased(x, y, button);
 }
 
 void ofApp::mouseDragged(int x, int y, int button){
-	piMapper.mouseDragged(x, y, button);
+	piMapper_.mouseDragged(x, y, button);
 }

@@ -71,8 +71,8 @@
             </texCoord>
         </texCoords>
         <source>
-            <source-type>fbo</source-type>
-            <source-name>Custom FBO Source</source-name>
+            <source-type>video</source-type>
+            <source-name>spinning-gyroscope-during-astr.mp4</source-name>
         </source>
         <properties>
             <perspectiveWarping>1</perspectiveWarping>

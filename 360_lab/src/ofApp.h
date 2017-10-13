@@ -8,6 +8,9 @@
 
 class ofApp : public ofBaseApp {
 	public:
+		ofApp();
+		~ofApp();
+
 		void setup();
 		void update();
 		void draw();
@@ -19,9 +22,16 @@ class ofApp : public ofBaseApp {
 		void mouseReleased(int x, int y, int button);
 		void mouseDragged(int x, int y, int button);
 
-		ofxPiMapper piMapper;
+		ofxPiMapper piMapper_;
 
 		// By using a custom source that is derived from FboSource
 		// you will be able to see the source listed in sources editor
-		Three60Source source_;
+		Three60Source source0_= {0};
+		Three60Source source1_= {1};
+		Three60Source source2_= {2};
+		Three60Source source3_= {3};
+		Three60Source source4_= {4};
+		Three60Source source5_= {5};
+
+		ofVideoPlayer player_;
 };
