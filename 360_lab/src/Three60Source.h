@@ -3,12 +3,12 @@
 #include "ofMain.h"
 #include "FboSource.h"
 
-class CustomSource : public ofx::piMapper::FboSource {
+class Three60Source : public ofx::piMapper::FboSource {
 	public:
         void setup();
 		void update();
 		void draw();
 
-		vector <ofRectangle> rects;
-		vector <float> rectSpeeds;
+		unique_ptr<ofVideoPlayer> _videoPlayer;
+		bool _initialVolumeSet;
 };
