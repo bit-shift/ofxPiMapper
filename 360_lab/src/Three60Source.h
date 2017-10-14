@@ -18,8 +18,6 @@ private:
 	float offset_;
 
 	ofSpherePrimitive sphere_;
-	ofLight light_;
 	ofEasyCam cam_;
-
 	ofImage image_;
 };
