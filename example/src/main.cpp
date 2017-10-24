@@ -5,18 +5,19 @@
 #include "Settings.h"
 
 int main(int argc, char * argv[]){
-	bool fullscreen = false;
-
-	vector<string> arguments = vector<string>(argv, argv + argc);
-	for(int i = 0; i < arguments.size(); ++i){
-		if(arguments.at(i) == "-f"){
-			fullscreen = true;
-			break;
-		}
-	}
+	auto win = std::make_shared<ofAppGLFWWindow>();
 	
-	Settings::instance()->setFullscreen(fullscreen);
+	ofGLWindowSettings settings;
+	settings.width = 800;
+	settings.height = 500;
+	settings.windowMode = OF_WINDOW;
+	settings.setGLVersion(4,5);
 
-	ofSetupOpenGL(800, 450, OF_WINDOW);
+	ofInit();	
+	ofGetMainLoop()->addWindow(win);
+	
+	win->setup(settings);
+	win->setMultiDisplayFullscreen(true);
+	
 	ofRunApp(new ofApp());
 }

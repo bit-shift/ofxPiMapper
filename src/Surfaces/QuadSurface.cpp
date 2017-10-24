@@ -63,50 +63,20 @@ void QuadSurface::draw(){
 		return;
 	}
 
-	if(_perspectiveWarping){
-		if(mesh.haveVertsChanged() || mesh.haveTexCoordsChanged()){
-			calculateHomography();
-		}
-		
-		ofRectangle box = getMeshBoundingBox();
-		ofMesh m = mesh;
-		
-		m.setVertex(0, ofVec3f(0, 0, 0));
-		m.setVertex(1, ofVec3f(box.width, 0, 0));
-		m.setVertex(2, ofVec3f(box.width, box.height, 0));
-		m.setVertex(3, ofVec3f(0, box.height, 0));
-		
-		ofPushMatrix();
-		if(true){
-			bool normalizedTexCoords = ofGetUsingNormalizedTexCoords();
-			ofEnableNormalizedTexCoords();
-			
-			glMultMatrixf(_matrix);
-			source->getTexture()->bind();
-			m.draw();
-			source->getTexture()->unbind();
-			
-			if(!normalizedTexCoords){
-				ofDisableNormalizedTexCoords();
-			}
-		}
-		ofPopMatrix();
-	}else{
-		bool normalizedTexCoords = ofGetUsingNormalizedTexCoords();
-		ofEnableNormalizedTexCoords();
-		
-		ofPushStyle();
-		ofSetColor(255, 255, 255);
+	bool normalizedTexCoords = ofGetUsingNormalizedTexCoords();
+	ofEnableNormalizedTexCoords();
 	
-		source->getTexture()->bind();
-		mesh.draw();
-		source->getTexture()->unbind();
-		
-		ofPopStyle();
-		
-		if(!normalizedTexCoords){
-			ofDisableNormalizedTexCoords();
-		}
+	// ofPushStyle();
+	ofSetColor(255, 255, 255);
+
+	// source->getTexture()->bind();
+	mesh.draw();
+	// source->getTexture()->unbind();
+	
+	// ofPopStyle();
+	
+	if(!normalizedTexCoords){
+		ofDisableNormalizedTexCoords();
 	}
 }
 
